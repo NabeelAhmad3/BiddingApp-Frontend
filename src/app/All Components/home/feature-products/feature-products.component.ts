@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 export interface myCardModel {
   image: string;
   carname: string;
-  price: number;
+  price: number | string;
   productid: number;
   city: string;
 }
@@ -14,11 +14,11 @@ export interface myCardModel {
 @Component({
   selector: 'app-feature-products',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './feature-products.component.html',
   styleUrls: ['../home-card/home-card.component.css']
 })
-export class FeatureProductsComponent {
+export class FeatureProductsComponent implements OnInit {
   cards: myCardModel[] = [];
   isLoggedIn: boolean = false;
   Authdata: any = {};
@@ -35,10 +35,12 @@ export class FeatureProductsComponent {
   }
 
   ngOnInit(): void {
-    this.http.get<myCardModel[]>('http://localhost:5000/products/allData').subscribe(
+    this.http.get<any[]>('http://localhost:5000/products/allData').subscribe(
       (data) => {
         this.cards = data.slice(0, 8).map(item => ({
-          image: './assets/car2.svg', 
+          image: item.images && item.images.length > 0
+            ? item.images[0]
+            : './assets/car2.svg',
           carname: item.carname,
           productid: item.productid,
           price: item.price,

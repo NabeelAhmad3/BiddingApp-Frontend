@@ -1,4 +1,3 @@
-<!-- src/app/details/details.component.html -->
 <div class="d-flex flex-row mt-3 ms-5" style="font-size: 25px;">
   <a href="/" style="text-decoration: none; color: black;">&#8672; &#160;Home&#160;/&#160;</a>
   <p style="color: #AAAAAA;"> Details</p>
@@ -6,6 +5,7 @@
 
 <div class="container mt-5 mb-5 d-flex flex-column align-items-center" style="width: 80%; max-width: 730px;">
   <div class="d-flex flex-row justify-content-between flex-wrap w-100">
+
     <div class="table-responsive m-2">
       <h4 class="text-center">Product Details</h4>
       <table class="table vertical-table">
@@ -21,6 +21,11 @@
           <tr>
             <td class="tdcolor">Car Type:</td>
             <td>{{ productInfo?.cartype }}</td>
+          </tr>
+          <!-- ✅ Added model row -->
+          <tr>
+            <td class="tdcolor">Car Model:</td>
+            <td>{{ productInfo?.model }}</td>
           </tr>
           <tr>
             <td class="tdcolor">Fuel Type:</td>
@@ -66,13 +71,47 @@
         </tbody>
       </table>
     </div>
+
   </div>
 </div>
+
+<!-- ✅ Image Carousel Section added here -->
+<div class="container mt-4 mb-4">
+  <h4 class="text-center">Product Images</h4>
+  <div *ngIf="productInfo?.images?.length > 0; else noImages">
+    <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div
+          *ngFor="let img of productInfo.images; let i = index"
+          class="carousel-item"
+          [class.active]="i === 0">
+          <img
+            [src]="img"
+            class="d-block w-100"
+            alt="Product Image"
+            style="max-height: 400px; object-fit: cover; border-radius: 10px;" />
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button"
+        data-bs-target="#productImageCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button"
+        data-bs-target="#productImageCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+  <ng-template #noImages>
+    <p class="text-center text-muted">No images available for this product.</p>
+  </ng-template>
+</div>
+
+<!-- Description -->
 <div class="container mt-5 mb-5" style="width: 75%;">
   <p>Description:</p>
-  <div
-    style="background-color: rgba(182, 182, 182, 0.2); padding: 16px; border-radius: 15px; color: rgba(142, 142, 142, 1)">
-    <p>{{  productInfo?.description }}</p>
+  <div style="background-color: rgba(182, 182, 182, 0.2); padding: 16px; border-radius: 15px; color: rgba(142, 142, 142, 1)">
+    <p>{{ productInfo?.description }}</p>
   </div>
 </div>
 

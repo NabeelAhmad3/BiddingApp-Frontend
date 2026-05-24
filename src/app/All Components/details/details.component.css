@@ -50,10 +50,54 @@ a {
     justify-content: center;
     align-items: center;
 }
-@media screen and (max-width: 787px){
-  .carousel{
+.container {
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.carousel {
+  width: 685px; 
+  height: auto; /* Make it auto for responsive images */
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel img {
+  border-radius: 10px;
+}
+
+.table-responsive {
+  border: 1px solid #dee2e6;
+  padding: 20px;
+  border-radius: 5px;
+  width: 325px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.btnstyle {
+  background: rgba(68, 85, 59, 1);
+  color: white;
+  padding: 8.7px 20px;
+  border-radius: 4.35px;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.tdcolor {
+  color: rgba(142, 142, 142, 1);
+}
+
+@media screen and (max-width: 787px) {
+  .carousel {
     width: 300px; 
-    height: auto;
   }
-  
+
+  .table-responsive {
+    width: 100%;
+  }
 }

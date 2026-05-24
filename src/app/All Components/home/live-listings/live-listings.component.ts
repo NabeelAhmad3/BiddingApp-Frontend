@@ -16,21 +16,21 @@ import { HomeCardComponent } from "../home-card/home-card.component";
 export class LiveListingsComponent implements OnInit {
   cards: homeCardModel[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<homeCardModel[]>('http://localhost:5000/products/livelistings') .subscribe( (data) => {
-          this.cards = data.map(item => ({
-            image: './assets/car1.svg',
-            carname: item.carname,
-            productid: item.productid,
-            price: item.price,
-            city: item.city
-          }));
-        },
-        (error) => {
-          console.error('Error fetching products:', error);
-        }
-      );
+    this.http.get<homeCardModel[]>('http://localhost:5000/products/livelistings').subscribe((data) => {
+      this.cards = data.map(item => ({
+        image: item.image,
+        carname: item.carname,
+        productid: item.productid,
+        price: item.price,
+        city: item.city
+      }));
+    },
+      (error) => {
+        console.error('Error fetching products:', error);
+      }
+    );
   }
 }
