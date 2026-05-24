@@ -4,13 +4,13 @@
         <h3 class="sidebar-title">⚙️ Admin Panel</h3>
         <ul>
             <li [class.active]="activeTab === 'products'" (click)="setTab('products')">
-                🚗 Products <span class="badge">{{ products.length }}</span>
+                Products <span class="badge">{{ products.length }}</span>
             </li>
             <li [class.active]="activeTab === 'users'" (click)="setTab('users')">
-                👤 Users <span class="badge">{{ users.length }}</span>
+                Users <span class="badge">{{ users.length }}</span>
             </li>
         </ul>
-        <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+        <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
 
     <div class="admin-content">

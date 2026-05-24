@@ -33,7 +33,9 @@ export class AllListingsComponent {
           walk: '(10 mins to walk)',
           status: 'Available',
           carname: product.carname,
-          image: 'assets/all2.svg',
+            image: product.images && product.images.length > 0
+            ? product.images[0]
+            : 'assets/all2.svg',
           description: product.description,
           price: `PKR: ${product.price.toLocaleString()}`,
           fuelicon: 'assets/all4.svg',

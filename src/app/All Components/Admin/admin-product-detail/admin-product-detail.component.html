@@ -1,44 +1,38 @@
 <div class="detail-wrapper">
 
-  <!-- Header -->
+
   <div class="detail-header">
     <button class="btn-back" (click)="goBack()">← Back to Admin</button>
     <h3>Product Detail</h3>
-    <button class="btn-delete" (click)="deleteProduct()">🗑 Delete Product</button>
+    <div class="header-actions">
+      <button class="btn-bid" data-bs-toggle="modal" data-bs-target="#setBidModal" *ngIf="!loading && product">
+        Start Bid
+      </button>
+      <button class="btn-delete" (click)="deleteProduct()">Delete Product</button>
+    </div>
   </div>
 
-  <!-- Loading -->
   <div *ngIf="loading" class="loading">Loading...</div>
 
-  <!-- Content -->
   <div *ngIf="!loading && product" class="detail-content">
 
-    <!-- Image Gallery -->
     <div class="gallery-section">
       <div class="main-image">
-        <img
-          [src]="product.images?.[activeImageIndex] || 'assets/no-image.png'"
-          alt="Product Image" />
+        <img [src]="product.images?.[activeImageIndex] || 'assets/no-image.png'" alt="Product Image" />
       </div>
       <div class="thumbnail-row" *ngIf="product.images?.length > 1">
-        <img
-          *ngFor="let img of product.images; let i = index"
-          [src]="img"
-          [class.active-thumb]="i === activeImageIndex"
-          (click)="setActiveImage(i)"
-          alt="thumb" />
+        <img *ngFor="let img of product.images; let i = index" [src]="img" [class.active-thumb]="i === activeImageIndex"
+          (click)="setActiveImage(i)" alt="thumb" />
       </div>
       <div *ngIf="!product.images?.length" class="no-image">
         No images available
       </div>
     </div>
 
-    <!-- Info Section -->
     <div class="info-section">
 
-      <!-- Product Info -->
       <div class="info-card">
-        <h4>🚗 Product Information</h4>
+        <h4>Product Information</h4>
         <table class="info-table">
           <tr>
             <td>Product ID</td>
@@ -78,16 +72,14 @@
           </tr>
         </table>
 
-        <!-- Description -->
         <div class="description-box" *ngIf="product.description">
           <p><b>Description:</b></p>
           <p>{{ product.description }}</p>
         </div>
       </div>
 
-      <!-- Owner Info -->
       <div class="info-card">
-        <h4>👤 Owner Information</h4>
+        <h4>Owner Information</h4>
         <table class="info-table">
           <tr>
             <td>User ID</td>
@@ -119,9 +111,10 @@
     </div>
   </div>
 
-  <!-- Not found -->
   <div *ngIf="!loading && !product" class="not-found">
     Product not found.
   </div>
 
 </div>
+
+<app-set-bid *ngIf="!loading && product" [productid]="product.productid"></app-set-bid>

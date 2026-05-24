@@ -1,35 +1,83 @@
-<div class="modal fade" id="setBidModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="setBidModal" aria-labelledby="setBidModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Set Auto Bid</h1>
+        <h5 class="modal-title" id="setBidModalLabel">
+          {{ isAdmin ? 'Start Bidding' : 'Place a Bid' }}
+        </h5>
       </div>
       <div class="modal-body">
-        <form [formGroup]="Bid" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()" class="needs-validation" novalidate>
+        <div class="current-bid-box" *ngIf="currentBid > 0">
+          <span>Current Bid:</span>
+          <strong>PKR {{ currentBid | number }}</strong>
+        </div>
+        <div class="current-bid-box" *ngIf="currentBid === 0">
+          <span>No bid placed yet</span>
+        </div>
+
+        <div class="timer-box" *ngIf="isActive && timeLeft">
+          <span>⏱ Time Remaining:</span>
+          <strong [style.color]="timeLeft === 'Bidding Ended' ? 'red' : '#4361ee'">
+            {{ timeLeft }}
+          </strong>
+        </div>
+        <div class="timer-box ended" *ngIf="!isActive && bidEndTime">
+          <span>🔴 Bidding has ended</span>
+        </div>
+
+        <hr />
+        <form *ngIf="isAdmin" [formGroup]="Bid" (ngSubmit)="onStartBid()">
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Stay at the top to win.</label>
-          </div>
-          <div class="mb-3 d-flex align-items-center justify-content-between">
-            <label for="text" class="col-form-label me-2">How much increment on bid:</label>
-            <div class="d-flex align-items-center">
-              <span class="me-2">PKR:</span>
-              <input type="number" class="form-control price" id="text" formControlName="price" />
+            <label class="col-form-label">Starting Bid Price (PKR)</label>
+            <input type="number" class="form-control" formControlName="price" placeholder="e.g. 500000" />
+            <div *ngIf="Bid.get('price')?.touched && Bid.get('price')?.invalid" class="text-danger">
+              <span *ngIf="Bid.get('price')?.errors?.['required']">Price is required.</span>
+              <span *ngIf="Bid.get('price')?.errors?.['min']">Minimum is PKR 100,000.</span>
             </div>
           </div>
-          <div *ngIf="Bid.get('price')?.touched && Bid.get('price')?.invalid">
-            <div class="text-danger" *ngIf="Bid.get('price')?.errors?.['required']">
-                Bid amount is required.
+
+          <div class="mb-3">
+            <label class="col-form-label">Bid Duration (hours)</label>
+            <input type="number" class="form-control" formControlName="duration_hours"
+              placeholder="e.g. 2 for 2 hours" />
+            <div *ngIf="Bid.get('duration_hours')?.touched && Bid.get('duration_hours')?.invalid" class="text-danger">
+              <span *ngIf="Bid.get('duration_hours')?.errors?.['required']">Duration is required.</span>
+              <span *ngIf="Bid.get('duration_hours')?.errors?.['min']">Minimum 1 hour.</span>
+              <span *ngIf="Bid.get('duration_hours')?.errors?.['max']">Maximum 72 hours.</span>
             </div>
-            <div class="text-danger" *ngIf="Bid.get('price')?.errors?.['min']">
-                Minimum Bid amount is 6 digits.
-            </div>
-            <div class="text-danger" *ngIf="Bid.get('price')?.errors?.['max']">
-                Maximum Bid amount is 8 digits.
-            </div>
-        
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btnstyle">Set Bid</button>
+            <button type="submit" class="btnstyle">🚀 Start Bid</button>
+          </div>
+        </form>
+        <form *ngIf="!isAdmin" [formGroup]="Bid" (ngSubmit)="onSubmit()">
+          <div class="mb-3" *ngIf="isActive; else bidNotActive">
+            <label class="col-form-label">
+              Your Bid (must be more than PKR {{ currentBid | number }})
+            </label>
+            <div class="d-flex align-items-center">
+              <span class="me-2">PKR:</span>
+              <input type="number" class="form-control" formControlName="price"
+                [placeholder]="'More than ' + currentBid" />
+            </div>
+            <div *ngIf="Bid.get('price')?.touched && Bid.get('price')?.invalid" class="text-danger">
+              <span *ngIf="Bid.get('price')?.errors?.['required']">Bid amount is required.</span>
+              <span *ngIf="Bid.get('price')?.errors?.['min']">Minimum PKR 100,000.</span>
+            </div>
+          </div>
+          <ng-template #bidNotActive>
+            <div class="text-center text-muted py-3">
+              <p>⏳ Bidding is not active for this product yet.</p>
+            </div>
+          </ng-template>
+
+          <div class="modal-footer d-flex justify-content-between">
+            <button type="submit" class="btnstyle" *ngIf="isActive">
+              Place Bid
+            </button>
+            <button type="button" class="btnstyle" (click)="viewCarDetails()" data-bs-dismiss="modal">
+              View Car Details
+            </button>
           </div>
         </form>
       </div>

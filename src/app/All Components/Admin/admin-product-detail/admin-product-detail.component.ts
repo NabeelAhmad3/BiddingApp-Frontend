@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SetBidComponent } from '../../../pop-ups/set-bid/set-bid.component'; 
 
 @Component({
   selector: 'app-admin-product-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SetBidComponent], 
   templateUrl: './admin-product-detail.component.html',
   styleUrls: ['./admin-product-detail.component.css']
 })

@@ -3,12 +3,13 @@
     <div class="d-flex flex-wrap justify-content-between mt-4">
       <div class="logo-container m-2">
         <div class="logo-text">
-          <h2>Logo</h2>
+          <h2 id="aboutus">About Us</h2>
           <p class="text-wrap">
-            Loremd similique, laudantium in voluptate oaiuesroiase <br>
-            Loremd similique, laudantium in similique, voluptate <br>
-            Loremd similique, laudantium in Loremd voluptate <br>
-            Loremd similique, laudantium in voluptate
+            Pakistan's leading online car auction platform.<br>
+            Secure and transparent bidding for all vehicle types.<br>
+            Verified listings from trusted sellers nationwide.<br>
+            Real-time bidding for fair and competitive prices.<br>
+            Buy and sell smarter with AutoBid.
           </p>
         </div>
         <div class="contact-info ">
@@ -33,7 +34,8 @@
             <p>We usually respond within 24 hours.</p>
           </div>
           <div class="contact-form">
-            <form [formGroup]="footerForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()" class="needs-validation" novalidate>
+            <form [formGroup]="footerForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()" class="needs-validation"
+              novalidate>
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="name" formControlName="Name" placeholder="Name" />
                 <label for="name">Name</label>
@@ -44,7 +46,7 @@
                   <div class="text-danger" *ngIf="footerForm.get('Name')?.errors?.['minlength']">
                     Minimum length is 3 characters.
                   </div>
-                     <div class="text-danger" *ngIf="footerForm.get('Name')?.errors?.['maxlength']">
+                  <div class="text-danger" *ngIf="footerForm.get('Name')?.errors?.['maxlength']">
                     Maximum length is 20 characters.
                   </div>
                 </div>
@@ -55,9 +57,12 @@
                 <label for="email">Email</label>
                 <div *ngIf="footerForm.get('Email')?.touched && footerForm.get('Email')?.invalid">
                   <div class="text-danger" *ngIf="footerForm.get('Email')?.errors?.['required']">Email is required</div>
-                  <div class="text-danger" *ngIf="footerForm.get('Email')?.errors?.['minlength']">Minimum length is 15 characters</div>
-                  <div class="text-danger" *ngIf="footerForm.get('Email')?.errors?.['maxlength']">Maximum length is 35 characters.</div>
-                  <div class="text-danger" *ngIf="footerForm.get('Email')?.errors?.['email']">Invalid email format.</div>
+                  <div class="text-danger" *ngIf="footerForm.get('Email')?.errors?.['minlength']">Minimum length is 15
+                    characters</div>
+                  <div class="text-danger" *ngIf="footerForm.get('Email')?.errors?.['maxlength']">Maximum length is 35
+                    characters.</div>
+                  <div class="text-danger" *ngIf="footerForm.get('Email')?.errors?.['email']">Invalid email format.
+                  </div>
                 </div>
               </div>
               <div class="form-floating mb-3">
@@ -65,8 +70,10 @@
                   placeholder="Leave a comment here"></textarea>
                 <label for="comments">Comments</label>
                 <div *ngIf="footerForm.get('TextArea')?.touched && footerForm.get('TextArea')?.invalid">
-                  <div class="text-danger" *ngIf="footerForm.get('description')?.errors?.['required']">Comments are required.</div>
-                  <div class="text-danger" *ngIf="footerForm.get('description')?.errors?.['minlength']"> Minimum length is 10 characters.</div>
+                  <div class="text-danger" *ngIf="footerForm.get('description')?.errors?.['required']">Comments are
+                    required.</div>
+                  <div class="text-danger" *ngIf="footerForm.get('description')?.errors?.['minlength']"> Minimum length
+                    is 10 characters.</div>
                 </div>
               </div>
               <div class="d-flex justify-content-center">
@@ -93,7 +100,7 @@
       <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav mr-auto" style="align-items: start;">
           <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#">Contact</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/contactUs">Contact</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Privacy Policy</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Sitemap</a></li>
           <li class="nav-item nav-link">Terms of Use 2000-2024 All Right Reserved</li>

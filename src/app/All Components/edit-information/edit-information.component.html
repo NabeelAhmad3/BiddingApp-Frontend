@@ -2,81 +2,97 @@
     <a href="/" style="text-decoration: none; color: black;">&#8672; &#160;Home&#160;/&#160;</a>
     <p style="color: #AAAAAA;">Edit Information</p>
 </div>
+
 <div class="header">
     <p class="d-flex justify-content-center fw-bolder mb-4 mt-5" style="font-size: xx-large;">
         <span style="color: black; margin-right: 5px;">Edit</span>
         <span style="color: rgba(68, 85, 59, 1);"> Information</span>
     </p>
-    
 </div>
-<div class="container mt-5 " style=" box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); border-radius: 15px;">
 
-    <form [formGroup]="editInfoForm" (ngSubmit)="onSubmit()" class="form-content mt-5 mb-5" >
-        <div class="form-row row ">
+<div class="container mt-5" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); border-radius: 15px;">
+    <form [formGroup]="editInfoForm" (ngSubmit)="onSubmit()" class="form-content mt-5 mb-5">
+
+        
+        <div class="row">
             <div class="col-md-5 mt-4">
-                <input type="text" class="form-control custom-input" id="name" formControlName="carname" placeholder="Name"/>
-                <div *ngIf="editInfoForm.get('name')?.errors && editInfoForm.get('name')?.touched">
-                    <span class="text-danger">{{ editInfoForm.get('carname')?.errors?.['required'] ? 'Name is required.' : '' }}</span>
-                    <span class="text-danger">{{ editInfoForm.get('carname')?.errors?.['minlength'] ? 'Minimum length is 3 characters.' : '' }}</span>
-                    <span class="text-danger">{{ editInfoForm.get('carname')?.errors?.['maxlength'] ? 'Maximum length is 20 characters.' : '' }}</span>
+                <input type="text" class="form-control custom-input" formControlName="carname" placeholder="Car Name" />
+                
+                <div *ngIf="editInfoForm.get('carname')?.invalid && editInfoForm.get('carname')?.touched"
+                    class="text-danger">
+                    <span *ngIf="editInfoForm.get('carname')?.errors?.['required']">Name is required.</span>
+                    <span *ngIf="editInfoForm.get('carname')?.errors?.['minlength']">Minimum length is 3
+                        characters.</span>
+                    <span *ngIf="editInfoForm.get('carname')?.errors?.['maxlength']">Maximum length is 20
+                        characters.</span>
                 </div>
             </div>
             <div class="col-md-5 mt-4">
-                <input type="number" class="form-control custom-input" id="price" formControlName="price" placeholder="Basic Price"/>
+                <input type="number" class="form-control custom-input" formControlName="price"
+                    placeholder="Basic Price" />
                 <div *ngIf="editInfoForm.get('price')?.invalid && editInfoForm.get('price')?.touched"
                     class="text-danger">
-                    <span class="text-danger">{{ editInfoForm.get('price')?.errors?.['required'] ? 'price is required.' : '' }}</span>
-                    <span class="text-danger">{{ editInfoForm.get('price')?.errors?.['min'] ? 'Minimum length is 6 characters.' : '' }}</span> 
-                    <span class="text-danger">{{ editInfoForm.get('price')?.errors?.['max'] ? 'Maximum length is 10 characters.' : '' }}</span>
+                    <span *ngIf="editInfoForm.get('price')?.errors?.['required']">Price is required.</span>
+                    <span *ngIf="editInfoForm.get('price')?.errors?.['min']">Minimum price is 100,000.</span>
+                    <span *ngIf="editInfoForm.get('price')?.errors?.['max']">Maximum price is 1,000,000,000.</span>
                 </div>
             </div>
         </div>
+
+        
         <div class="row">
             <div class="col-md-5 mt-xl-5 mt-2">
                 <div class="custom-select-wrapper">
-                <label for="cartype" class="col-form-label">Choose Car Type</label>
-                    <select class="form-control custom-select-arrow" id="CarType" formControlName="cartype">
-                        <option value="" disabled selected>Select Type</option>
+                    <label class="col-form-label">Choose Car Type</label>
+                    <select class="form-control custom-select-arrow" formControlName="cartype">
+                        <option value="" disabled>Select Type</option>
                         <option value="Automatic">Automatic</option>
                         <option value="Manual">Manual</option>
                     </select>
                 </div>
-                <div *ngIf="editInfoForm.get('cartype')?.invalid && editInfoForm.get('cartype')?.touched" class="text-danger">
-                    <span class="text-danger" *ngIf="editInfoForm.get('cartype')?.errors?.['required']">Car Type is required.</span>
+                <div *ngIf="editInfoForm.get('cartype')?.invalid && editInfoForm.get('cartype')?.touched"
+                    class="text-danger">
+                    <span *ngIf="editInfoForm.get('cartype')?.errors?.['required']">Car Type is required.</span>
                 </div>
             </div>
             <div class="col-md-5 mt-xl-5 mt-2">
                 <div class="custom-select-wrapper">
-                    
-                <label for="fueltype" class="col-form-label">Choose Fuel Type</label>
-                    <select class="form-control custom-select-arrow" id="fueltype" formControlName="fueltype">
-                        <option value="" disabled selected>Select Type</option>
+                    <label class="col-form-label">Choose Fuel Type</label>
+                    <select class="form-control custom-select-arrow" formControlName="fueltype">
+                        <option value="" disabled>Select Type</option>
                         <option value="Diesel">Diesel</option>
                         <option value="Electric">Electric</option>
                         <option value="Petrol">Petrol</option>
                     </select>
                 </div>
-                <div *ngIf="editInfoForm.get('fueltype')?.invalid && editInfoForm.get('fueltype')?.touched" class="text-danger">
-                    <span class="text-danger" *ngIf="editInfoForm.get('fueltype')?.errors?.['required']">Fuel Type is required.</span>
+                <div *ngIf="editInfoForm.get('fueltype')?.invalid && editInfoForm.get('fueltype')?.touched"
+                    class="text-danger">
+                    <span *ngIf="editInfoForm.get('fueltype')?.errors?.['required']">Fuel Type is required.</span>
                 </div>
             </div>
         </div>
-        <div class="form-row row mt-3">
-            <div class="col-md-10 ">
-                <textarea class=" custom-textarea form-control" id="description" formControlName="description" rows="4"placeholder="description"></textarea>
-                <div *ngIf="editInfoForm.get('address')?.errors && editInfoForm.get('address')?.touched">
-                    <span class="text-danger" *ngIf="editInfoForm.get('description')?.errors?.['required']">Descriptions required.</span>
-                    <span class="text-danger" *ngIf="editInfoForm.get('description')?.errors?.['minlength']">Minimum length is 6 characters.</span>
-                    <span class="text-danger" *ngIf="editInfoForm.get('description')?.errors?.['maxlength']">Maximum length is 20 characters.</span>
+
+        
+        <div class="row mt-3">
+            <div class="col-md-10">
+                <textarea class="custom-textarea form-control" formControlName="description" rows="4"
+                    placeholder="Description"></textarea>
+                
+                <div *ngIf="editInfoForm.get('description')?.invalid && editInfoForm.get('description')?.touched"
+                    class="text-danger">
+                    <span *ngIf="editInfoForm.get('description')?.errors?.['maxlength']">Maximum length is 1000
+                        characters.</span>
                 </div>
             </div>
         </div>
-    <div class="row mt-xl-5">
-            <div class="col-md-5 ">
-                <label for="location" class="col-form-label">Choose Your City</label>
+
+        
+        <div class="row mt-xl-5">
+            <div class="col-md-5">
+                <label class="col-form-label">Choose Your City</label>
                 <div class="custom-select-wrapper">
-                    <select class="form-control custom-select-arrow" id="city" formControlName="city">
-                        <option value="" disabled selected>Select City</option>
+                    <select class="form-control custom-select-arrow" formControlName="city">
+                        <option value="" disabled>Select City</option>
                         <option value="Islamabad">Islamabad</option>
                         <option value="Peshawar">Peshawar</option>
                         <option value="Multan">Multan</option>
@@ -87,20 +103,29 @@
                     </select>
                 </div>
                 <div *ngIf="editInfoForm.get('city')?.invalid && editInfoForm.get('city')?.touched" class="text-danger">
-                    <span class="text-danger" *ngIf="editInfoForm.get('city')?.errors?.['required']">City is required.</span>
+                    <span *ngIf="editInfoForm.get('city')?.errors?.['required']">City is required.</span>
                 </div>
             </div>
             <div class="col-md-5">
-                <input type="text" class="form-control custom-input mt-4" id="address" formControlName="address" placeholder="Address" />
-                <div *ngIf="editInfoForm.get('address')?.errors && editInfoForm.get('address')?.touched">
-                    <span class="text-danger" *ngIf="editInfoForm.get('address')?.errors?.['required']">Address is required.</span>
-                    <span class="text-danger" *ngIf="editInfoForm.get('address')?.errors?.['minlength']">Minimum length is 3 characters.</span>
-                    <span class="text-danger" *ngIf="editInfoForm.get('address')?.errors?.['maxlength']">Maximum length is 20 characters.</span>
+                <input type="text" class="form-control custom-input mt-4" formControlName="address"
+                    placeholder="Address" />
+                <div *ngIf="editInfoForm.get('address')?.invalid && editInfoForm.get('address')?.touched"
+                    class="text-danger">
+                    <span *ngIf="editInfoForm.get('address')?.errors?.['required']">Address is required.</span>
+                    <span *ngIf="editInfoForm.get('address')?.errors?.['minlength']">Minimum length is 3
+                        characters.</span>
+                    <span *ngIf="editInfoForm.get('address')?.errors?.['maxlength']">Maximum length is 20
+                        characters.</span>
                 </div>
             </div>
         </div>
+
+        
         <div class="d-flex justify-content-center">
-            <button class="submit-btn mb-3" type="submit"  style="width: 200px; padding:10px 60px, 10px, 60px ; background: rgba(68, 85, 59, 1);">Send your approval</button>
+            <button class="submit-btn mb-3 mt-4" type="submit" style="width: 200px; background: rgba(68, 85, 59, 1);">
+                Save Changes
+            </button>
         </div>
+
     </form>
 </div>

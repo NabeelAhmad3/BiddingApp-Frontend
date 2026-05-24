@@ -233,19 +233,29 @@ router.get('/search', (req, res) => {
         return res.status(400).json({ message: 'Search query is required' });
     }
 
-    let sql = 'SELECT * FROM products WHERE ';
+    let sql = `
+        SELECT 
+            p.productid, p.carname, p.price, p.fueltype,
+            p.cartype, p.city, p.description,
+            GROUP_CONCAT(pi.image SEPARATOR ',') AS images
+        FROM products p
+        LEFT JOIN product_images pi ON p.productid = pi.productid
+        WHERE `;
+
     const queryParams = [];
 
     if (carname) {
-        sql += 'carname LIKE ? ';
+        sql += 'p.carname LIKE ? ';
         queryParams.push(`%${carname}%`);
     }
 
     if (!isNaN(productid)) {
         if (carname) sql += 'OR ';
-        sql += 'productid = ? ';
+        sql += 'p.productid = ? ';
         queryParams.push(productid);
     }
+
+    sql += 'GROUP BY p.productid';
 
     pool.query(sql, queryParams, (err, results) => {
         if (err) {
@@ -257,7 +267,14 @@ router.get('/search', (req, res) => {
             return res.status(200).json([]);
         }
 
-        res.status(200).json(results);
+        const formatted = results.map(row => ({
+            ...row,
+            images: row.images
+                ? row.images.split(',').map(img => `data:image/jpeg;base64,${img}`)
+                : []
+        }));
+
+        res.status(200).json(formatted);
     });
 });
 

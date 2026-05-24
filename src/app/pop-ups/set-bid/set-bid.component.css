@@ -32,11 +32,13 @@
 .btnstyle {
     background: rgba(68, 85, 59, 1);
     border: none;
-    width: 80px;
-    height: 40px;
+    width: auto;
+    height: auto;
     border-radius: 15px;
+    padding: 10px;
     color: white;
 }
+
 .price {
     appearance: none;
     -moz-appearance: textfield;
@@ -44,11 +46,52 @@
 }
 
 input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.current-bid-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f4ff;
+    border: 1px solid #4361ee;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #1e1e2f;
+}
+
+.current-bid-box strong {
+    font-size: 16px;
+    color: #4361ee;
+}
+
+.timer-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.timer-box.ended {
+    background-color: #fef2f2;
+    border-color: #ef4444;
+    color: #ef4444;
+    justify-content: center;
+}
+
+.btn-view-car:hover {
+    background-color: #4361ee;
+}
