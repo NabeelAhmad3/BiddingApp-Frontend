@@ -1,0 +1,127 @@
+<div class="detail-wrapper">
+
+  <!-- Header -->
+  <div class="detail-header">
+    <button class="btn-back" (click)="goBack()">← Back to Admin</button>
+    <h3>Product Detail</h3>
+    <button class="btn-delete" (click)="deleteProduct()">🗑 Delete Product</button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <!-- Content -->
+  <div *ngIf="!loading && product" class="detail-content">
+
+    <!-- Image Gallery -->
+    <div class="gallery-section">
+      <div class="main-image">
+        <img
+          [src]="product.images?.[activeImageIndex] || 'assets/no-image.png'"
+          alt="Product Image" />
+      </div>
+      <div class="thumbnail-row" *ngIf="product.images?.length > 1">
+        <img
+          *ngFor="let img of product.images; let i = index"
+          [src]="img"
+          [class.active-thumb]="i === activeImageIndex"
+          (click)="setActiveImage(i)"
+          alt="thumb" />
+      </div>
+      <div *ngIf="!product.images?.length" class="no-image">
+        No images available
+      </div>
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+
+      <!-- Product Info -->
+      <div class="info-card">
+        <h4>🚗 Product Information</h4>
+        <table class="info-table">
+          <tr>
+            <td>Product ID</td>
+            <td>{{ product.productid }}</td>
+          </tr>
+          <tr>
+            <td>Car Name</td>
+            <td>{{ product.carname }}</td>
+          </tr>
+          <tr>
+            <td>Model</td>
+            <td>{{ product.model }}</td>
+          </tr>
+          <tr>
+            <td>Car Type</td>
+            <td>{{ product.cartype }}</td>
+          </tr>
+          <tr>
+            <td>Fuel Type</td>
+            <td>{{ product.fueltype }}</td>
+          </tr>
+          <tr>
+            <td>Price</td>
+            <td>PKR {{ product.price | number }}</td>
+          </tr>
+          <tr>
+            <td>City</td>
+            <td>{{ product.city }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ product.address }}</td>
+          </tr>
+          <tr>
+            <td>Listed On</td>
+            <td>{{ product.created_at | date:'medium' }}</td>
+          </tr>
+        </table>
+
+        <!-- Description -->
+        <div class="description-box" *ngIf="product.description">
+          <p><b>Description:</b></p>
+          <p>{{ product.description }}</p>
+        </div>
+      </div>
+
+      <!-- Owner Info -->
+      <div class="info-card">
+        <h4>👤 Owner Information</h4>
+        <table class="info-table">
+          <tr>
+            <td>User ID</td>
+            <td>{{ product.owner_id }}</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>{{ product.owner_name }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ product.owner_email }}</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td>{{ product.owner_phone }}</td>
+          </tr>
+          <tr>
+            <td>City</td>
+            <td>{{ product.owner_city }}</td>
+          </tr>
+          <tr>
+            <td>CNIC</td>
+            <td>{{ product.owner_cnic }}</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Not found -->
+  <div *ngIf="!loading && !product" class="not-found">
+    Product not found.
+  </div>
+
+</div>

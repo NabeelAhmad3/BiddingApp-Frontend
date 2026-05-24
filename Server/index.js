@@ -7,7 +7,7 @@ const product_bid_endpoint = require('./Modules/product_bid');
 const payment_setting_endpoint = require('./Modules/payment_setting');
 const id_verification_endpoint =require('./Modules/id_verification');
 const contact_endpoint=require('./Modules/contact')
-
+const adminRoutes = require('./Modules/admin');
 
 pool.getConnection((err, connection) => {
     if (err) {
@@ -31,7 +31,7 @@ index.use('/product_bid', product_bid_endpoint);
 index.use('/payment_setting',payment_setting_endpoint);
 index.use('/id_verification',id_verification_endpoint);
 index.use('/contact',contact_endpoint);
-
+index.use('/admin', adminRoutes);
 
 index.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

@@ -18,15 +18,7 @@ export class AppComponent {
   isHomeRoute(): boolean {
     return this.router.url === '/';
   }
-
-  // isAdmin(): boolean {
-  //   const usertype = localStorage.getItem('usertype');
-  //   if (usertype == "Admin") {
-  //     return false;
-  //   } else if (usertype == "Client") {
-  //     return true;
-  //   } else {
-  //     return true;
-  //   }
-  // }
+  isAdminRoute(): boolean {
+    return this.router.url.startsWith('/admin');
+  }
 }

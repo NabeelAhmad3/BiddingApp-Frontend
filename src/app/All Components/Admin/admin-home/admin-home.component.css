@@ -1,0 +1,171 @@
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ── Sidebar ── */
+.admin-sidebar {
+  width: 220px;
+  background-color: #1e1e2f;
+  color: white;
+  padding: 30px 20px;
+  position: fixed;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #a78bfa;
+  border-bottom: 1px solid #333;
+  padding-bottom: 15px;
+}
+
+.admin-sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex: 1;
+}
+
+.admin-sidebar ul li {
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.admin-sidebar ul li:hover,
+.admin-sidebar ul li.active {
+  background-color: #4361ee;
+}
+
+.badge {
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.logout-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 14px;
+  margin-top: auto;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
+
+/* ── Content ── */
+.admin-content {
+  margin-left: 220px;
+  padding: 30px;
+  width: 100%;
+  background-color: #f4f6fb;
+  min-height: 100vh;
+}
+
+.tab-title {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #1e1e2f;
+  font-weight: 600;
+}
+
+/* ── Table ── */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.admin-table th {
+  background-color: #4361ee;
+  color: white;
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+  color: #374151;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover td {
+  background-color: #f9fafb;
+}
+
+.text-center {
+  text-align: center;
+  color: #9ca3af;
+  padding: 30px !important;
+}
+
+/* ── Buttons & Badges ── */
+.btn-delete {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
+}
+
+.badge-admin {
+  background-color: #4361ee;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.badge-user {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}.btn-view {
+  background-color: #4361ee;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.btn-view:hover {
+  background-color: #3451d1;
+}

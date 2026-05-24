@@ -1,1 +1,98 @@
-<p>admin-home works!</p>
+<div class="admin-wrapper">
+
+    <div class="admin-sidebar">
+        <h3 class="sidebar-title">⚙️ Admin Panel</h3>
+        <ul>
+            <li [class.active]="activeTab === 'products'" (click)="setTab('products')">
+                🚗 Products <span class="badge">{{ products.length }}</span>
+            </li>
+            <li [class.active]="activeTab === 'users'" (click)="setTab('users')">
+                👤 Users <span class="badge">{{ users.length }}</span>
+            </li>
+        </ul>
+        <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+
+    <div class="admin-content">
+        <div *ngIf="activeTab === 'products'">
+            <h4 class="tab-title">All Products</h4>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Car Name</th>
+                        <th>Model</th>
+                        <th>Price</th>
+                        <th>City</th>
+                        <th>Seller</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of products">
+                        <td>
+                            <img [src]="p.image || 'assets/no-image.png'" alt="car"
+                                style="width:60px; height:45px; object-fit:cover; border-radius:6px;" />
+                        </td>
+                        <td>{{ p.productid }}</td>
+                        <td>{{ p.carname }}</td>
+                        <td>{{ p.model }}</td>
+                        <td>PKR {{ p.price | number }}</td>
+                        <td>{{ p.city }}</td>
+                        <td>{{ p.seller_name }}</td>
+                        <td>{{ p.created_at | date:'shortDate' }}</td>
+                        <td>
+                            <button class="btn-view" (click)="viewProduct(p.productid)">View</button>
+                            <button class="btn-delete" (click)="deleteProduct(p.productid)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="products.length === 0">
+                        <td colspan="9" class="text-center">No products found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="activeTab === 'users'">
+            <h4 class="tab-title">All Users</h4>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of users">
+                        <td>{{ u.userid }}</td>
+                        <td>{{ u.name }}</td>
+                        <td>{{ u.email }}</td>
+                        <td>{{ u.phone }}</td>
+                        <td>{{ u.city }}</td>
+                        <td>
+                            <span [class]="u.role === 'admin' ? 'badge-admin' : 'badge-user'">
+                                {{ u.role }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-delete" *ngIf="u.role !== 'admin'"
+                                (click)="deleteUser(u.userid)">Delete</button>
+                            <span *ngIf="u.role === 'admin'" style="color: gray; font-size:12px;">Protected</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="users.length === 0">
+                        <td colspan="7" class="text-center">No users found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

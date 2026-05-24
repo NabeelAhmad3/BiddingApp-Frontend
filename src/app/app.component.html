@@ -1,12 +1,19 @@
-<ng-container *ngIf="isHomeRoute(); else otherRoutes">
+<ng-container *ngIf="isAdminRoute(); else notAdmin">
   <router-outlet></router-outlet>
-  <app-footer></app-footer>
 </ng-container>
-<ng-template #otherRoutes>
-  <div class="d-flex flex-row justify-content-between bg-dark align-items-center p-3">
-      <a class="navbar-brand " href=""><img src="assets/Logo.svg" alt="Logo" style="height: 60px;"></a>
-    <app-header />
-  </div>
-  <router-outlet />
-  <app-footer />
+
+<ng-template #notAdmin>
+  <ng-container *ngIf="isHomeRoute(); else otherRoutes">
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </ng-container>
+
+  <ng-template #otherRoutes>
+    <div class="d-flex flex-row justify-content-between bg-dark align-items-center p-3">
+      <a class="navbar-brand" href=""><img src="assets/Logo.svg" alt="Logo" style="height: 60px;"></a>
+      <app-header />
+    </div>
+    <router-outlet />
+    <app-footer />
+  </ng-template>
 </ng-template>

@@ -90,7 +90,8 @@ router.post('/login', (req, res) => {
             }
             const token = jwt.sign({ id: user.userid }, secretKey, { expiresIn: '1d' });
           
-            res.status(200).json({ message: 'Login successful from backend', token, userid: user.userid, usertype: user.type });
+            res.status(200).json({ message: 'Login successful from backend', token, userid: user.userid, usertype: user.type,
+                role: user.role });
 
         } catch (compareErr) {
             return res.status(500).json({ message: 'Password comparison error', error: compareErr });
