@@ -21,7 +21,6 @@ export class MyProductsComponent implements OnInit {
 
   constructor(private http: HttpClient) {
     this.userid = localStorage.getItem('authUserId');
-
     localStorage.setItem('localdatadetail', '');
   }
 
@@ -29,36 +28,48 @@ export class MyProductsComponent implements OnInit {
     this.http.get<any>(`http://localhost:5000/products/myProducts/${this.userid}`).subscribe(
       (data) => {
         this.CarData = data.map((item: any) => ({
-          status: "assets/myprostatus.svg",
           image: item.image ? item.image : 'assets/all3.svg',
           carname: item.carname,
           price: item.price,
           eyeTxt: 3423,
           city: item.city,
-          productid: item.productid
+          productid: item.productid,
+          isActive: false,
+          statusLabel: 'Available' // default
         }));
+
+        this.CarData.forEach((car: any) => {
+          this.http.get<any>(`http://localhost:5000/product_bid/bidStatus/${car.productid}`)
+            .subscribe({
+              next: (bidData) => {
+                car.isActive = !!bidData.is_active;
+                if (bidData.is_active) {
+                  car.statusLabel = 'Bidding Live';
+                } else if (bidData.bid_end_time) {
+                  car.statusLabel = 'Completed';
+                } else {
+                  car.statusLabel = 'Available';
+                }
+              },
+              error: () => {
+                car.statusLabel = 'Available';
+              }
+            });
+        });
       },
       (error) => {
         console.error('Error fetching products:', error);
       }
     );
   }
-  deleteProduct(productid: number): void {
-    if (!this.userid) {
-      console.error('User ID is not available.');
-      return;
-    }
 
-    const confirmation = confirm('Are you sure you want to delete this product?');
-    if (!confirmation) {
-      console.log('Product deletion cancelled.');
-      return;
-    }
+  deleteProduct(productid: number): void {
+    if (!this.userid) return;
+    if (!confirm('Are you sure you want to delete this product?')) return;
 
     this.http.delete(`http://localhost:5000/products/deleteProduct/${productid}/${this.userid}`).subscribe(
       () => {
         this.CarData = this.CarData.filter((car: any) => car.productid !== productid);
-        console.log('Product deleted successfully');
       },
       (error) => {
         console.error('Error deleting product:', error);

@@ -17,6 +17,7 @@ import { AuthGuard } from './auth.guard';
 import { AdminHomeComponent } from './All Components/Admin/admin-home/admin-home.component';
 import { AdminOnly } from './admin.only.guard';
 import { AdminProductDetailComponent } from './All Components/Admin/admin-product-detail/admin-product-detail.component';
+import { MyBidsComponent } from './All Components/my-bids/my-bids.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,16 +26,17 @@ export const routes: Routes = [
   { path: 'contactUs', component: ContactUsComponent },
   { path: 'faq', component: FAQComponent },
   { path: 'sellProducts', component: SellProductsComponent, canActivate: [AuthGuard] },
-  { path: 'profileSet', component: ProfileSettingComponent , canActivate: [AuthGuard]},
-  { path: 'verificationCent', component: VerificationCenterComponent , canActivate: [AuthGuard] },
+  { path: 'profileSet', component: ProfileSettingComponent, canActivate: [AuthGuard] },
+  { path: 'verificationCent', component: VerificationCenterComponent, canActivate: [AuthGuard] },
   { path: 'helpUs', component: HelpUsComponent },
-  { path: 'myProducts', component: MyProductsComponent , canActivate: [AuthGuard]},
-  { path: 'details', component: DetailsComponent , canActivate: [AuthGuard]},
-  { path: 'editInfo', component: EditInformationComponent , canActivate: [AuthGuard]},
-  { path: 'purchaseBid', component: PurchaseBidComponent , canActivate: [AuthGuard]},
+  { path: 'myProducts', component: MyProductsComponent, canActivate: [AuthGuard] },
+  { path: 'details', component: DetailsComponent, canActivate: [AuthGuard] },
+  { path: 'editInfo', component: EditInformationComponent, canActivate: [AuthGuard] },
+  { path: 'purchaseBid', component: PurchaseBidComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchResultsComponent },
-  { path: 'edit-product/:productid', component: EditInformationComponent , canActivate: [AuthGuard]},
+  { path: 'edit-product/:productid', component: EditInformationComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminHomeComponent, canActivate: [AdminOnly] },
   { path: 'admin/product/:productid', component: AdminProductDetailComponent, canActivate: [AdminOnly] },
+  { path: 'myBids', component: MyBidsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

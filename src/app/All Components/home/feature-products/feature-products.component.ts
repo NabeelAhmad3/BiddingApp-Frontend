@@ -37,7 +37,7 @@ export class FeatureProductsComponent implements OnInit {
   ngOnInit(): void {
     this.http.get<any[]>('http://localhost:5000/products/allData').subscribe(
       (data) => {
-        this.cards = data.slice(0, 8).map(item => ({
+        const allCards = data.map(item => ({
           image: item.images && item.images.length > 0
             ? item.images[0]
             : './assets/car2.svg',
@@ -46,6 +46,30 @@ export class FeatureProductsComponent implements OnInit {
           price: item.price,
           city: item.city
         }));
+
+        let checkedCount = 0;
+        const tempCards: myCardModel[] = [];
+
+        allCards.forEach((card: any) => {
+          this.http.get<any>(`http://localhost:5000/product_bid/bidStatus/${card.productid}`)
+            .subscribe({
+              next: (bidData) => {
+                const isCompleted = !bidData.is_active && !!bidData.bid_end_time;
+                if (!isCompleted) {
+                  tempCards.push(card);
+                }
+              },
+              error: () => {
+                tempCards.push(card);
+              },
+              complete: () => {
+                checkedCount++;
+                if (checkedCount === allCards.length) {
+                  this.cards = tempCards.slice(0, 8);
+                }
+              }
+            });
+        });
       },
       (error) => {
         console.error('Error fetching products:', error);

@@ -92,6 +92,23 @@ input[type="number"] {
     justify-content: center;
 }
 
-.btn-view-car:hover {
-    background-color: #4361ee;
+.bid-closed-box {
+    text-align: center;
+    background-color: #fef2f2;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    padding: 20px;
+    color: #ef4444;
+    margin-bottom: 12px;
+}
+
+.bid-closed-box p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.bid-closed-box small {
+    color: #9ca3af;
+    font-size: 12px;
 }

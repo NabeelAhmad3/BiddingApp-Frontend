@@ -38,31 +38,44 @@ router.post('/startBid/:userid/:productid', (req, res) => {
 router.put('/createBid/:userid/:productid', (req, res) => {
     const { userid, productid } = req.params;
     const { price } = req.body;
+
     const checkSql = `SELECT * FROM product_bid WHERE productid = ?`;
     pool.query(checkSql, [productid], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        if (results.length === 0) return res.status(404).json({ error: 'No bid found for this product' });
+        if (results.length === 0) return res.status(404).json({ error: 'No bid found' });
 
         const bid = results[0];
         const now = new Date();
         const endTime = new Date(bid.bid_end_time);
-        if (!bid.is_active) {
-            return res.status(400).json({ error: 'Bidding has not started yet' });
-        }
+
+        if (!bid.is_active) return res.status(400).json({ error: 'Bidding has not started yet' });
         if (now > endTime) {
             pool.query(`UPDATE product_bid SET is_active = 0 WHERE productid = ?`, [productid]);
             return res.status(400).json({ error: 'Bidding time has ended' });
         }
         if (parseFloat(price) <= parseFloat(bid.price)) {
-            return res.status(400).json({
-                error: `Bid must be higher than current bid of PKR ${bid.price.toLocaleString()}`
-            });
+            return res.status(400).json({ error: `Bid must be higher than PKR ${bid.price}` });
         }
-        const updateSql = `UPDATE product_bid SET price = ?, userid = ? WHERE productid = ?`;
-        pool.query(updateSql, [price, userid, productid], (err) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.status(200).json({ message: 'Bid placed successfully', new_price: price });
-        });
+
+        // Update current bid
+        pool.query(
+            `UPDATE product_bid SET price = ?, userid = ? WHERE productid = ?`,
+            [price, userid, productid],
+            (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+
+                // ✅ Also insert into history so every bidder is tracked
+                pool.query(
+                    `INSERT INTO bid_history (productid, userid, price) VALUES (?, ?, ?)`,
+                    [productid, userid, price],
+                    (err) => {
+                        if (err) console.error('History insert error:', err.message);
+                    }
+                );
+
+                res.status(200).json({ message: 'Bid placed successfully', new_price: price });
+            }
+        );
     });
 });
 router.get('/bidStatus/:productid', (req, res) => {
@@ -88,5 +101,63 @@ router.get('/bidStatus/:productid', (req, res) => {
         });
     });
 });
+router.get('/myBids/:userid', (req, res) => {
+    const { userid } = req.params;
+    const sql = `
+        SELECT 
+            bh.id AS bidid, bh.price AS bid_price, bh.created_at,
+            p.productid, p.carname, p.city, p.price AS basic_price,
+            pb.is_active, pb.bid_end_time,
+            MIN(pi.image) AS image
+        FROM bid_history bh
+        LEFT JOIN products p ON bh.productid = p.productid
+        LEFT JOIN product_bid pb ON bh.productid = pb.productid
+        LEFT JOIN product_images pi ON p.productid = pi.productid
+        WHERE bh.userid = ?
+        GROUP BY bh.id
+        ORDER BY bh.created_at DESC
+    `;
+    pool.query(sql, [userid], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
 
+        const formatted = results.map(row => ({
+            ...row,
+            image: row.image
+                ? `data:image/jpeg;base64,${row.image.toString('base64')}`
+                : null
+        }));
+        res.status(200).json(formatted);
+    });
+});
+router.get('/myWonBids/:userid', (req, res) => {
+    const { userid } = req.params;
+    const sql = `
+        SELECT 
+            bh.id AS bidid, bh.price AS bid_price, bh.created_at,
+            p.productid, p.carname, p.city, p.price AS basic_price,
+            pb.is_active, pb.bid_end_time,
+            MIN(pi.image) AS image
+        FROM bid_history bh
+        LEFT JOIN products p ON bh.productid = p.productid
+        LEFT JOIN product_bid pb ON bh.productid = pb.productid
+        LEFT JOIN product_images pi ON p.productid = pi.productid
+        WHERE bh.userid = ?
+          AND pb.is_active = 0
+          AND pb.bid_end_time IS NOT NULL
+          AND bh.price = pb.price
+        GROUP BY bh.id
+        ORDER BY bh.created_at DESC
+    `;
+    pool.query(sql, [userid], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        const formatted = results.map(row => ({
+            ...row,
+            image: row.image
+                ? `data:image/jpeg;base64,${row.image.toString('base64')}`
+                : null
+        }));
+        res.status(200).json(formatted);
+    });
+});
 module.exports = router;

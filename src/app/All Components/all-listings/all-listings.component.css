@@ -52,3 +52,29 @@
     color: white;
     cursor: pointer;
 }
+
+.livebtn {
+    background-color: #4361ee;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.notavailablebtn {
+    background-color: #fee2e2;
+    color: #ef4444;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.checkingbtn {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}

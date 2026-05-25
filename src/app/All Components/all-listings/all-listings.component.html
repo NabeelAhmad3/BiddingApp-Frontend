@@ -8,9 +8,18 @@
                 <img [src]="item.walkicon" alt="img" class="img-fluid" style="max-height: 40px" />
                 <span class="ms-2">{{ item.walk }}</span>
               </div>
+
+              <!-- ✅ Dynamic status badge -->
               <div class="availability-box d-flex align-items-center justify-content-center">
-                <span class="availablebtn">{{ item.status }}</span>
+                <span
+                  [class.availablebtn]="item.status === 'Available'"
+                  [class.livebtn]="item.status === 'Bidding Live'"
+                  [class.notavailablebtn]="item.status === 'Not Available'"
+                  [class.checkingbtn]="item.status === 'Checking...'">
+                  {{ item.status }}
+                </span>
               </div>
+
             </div>
             <img [src]="item.image" alt="imgAlt" class="img-fluid mx-auto d-block my-3 main-img" />
             <div class="car-details d-flex justify-content-between align-items-center">
@@ -31,10 +40,10 @@
                 <p class="mb-0 ms-1">{{ item.city }}</p>
               </div>
             </div>
-            <button class="CardButton" (click)="localCardData(item.productid)" [routerLink]="['/details']">View Details</button>
+            <button class="CardButton" (click)="localCardData(item.productid)"
+              [routerLink]="['/details']">View Details</button>
           </div>
         </div>
       </div>
     </div>
 </div>
-  

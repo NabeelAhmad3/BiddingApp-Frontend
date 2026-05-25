@@ -73,6 +73,7 @@ router.get('/livelistings', (req, res) => {
         FROM products p
         INNER JOIN product_bid b ON p.productid = b.productid
         LEFT JOIN product_images pi ON p.productid = pi.productid
+        WHERE b.is_active = 1
         GROUP BY p.productid, p.carname, p.city, b.price
     `;
 
