@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2026 at 08:54 AM
+-- Generation Time: May 26, 2026 at 10:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `car_bidding_app`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bid_history`
+--
+
+CREATE TABLE `bid_history` (
+  `id` int(11) NOT NULL,
+  `productid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `price` decimal(15,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bid_history`
+--
+
+INSERT INTO `bid_history` (`id`, `productid`, `userid`, `price`, `created_at`) VALUES
+(1, 219, 129, 500002.00, '2026-05-25 07:21:46'),
+(2, 219, 129, 500004.00, '2026-05-25 07:22:41'),
+(3, 217, 129, 600010.00, '2026-05-25 15:50:01'),
+(4, 218, 129, 850000.00, '2026-05-26 07:05:07'),
+(5, 218, 130, 1000000.00, '2026-05-26 07:26:17'),
+(6, 218, 129, 1100000.00, '2026-05-26 07:27:29');
 
 -- --------------------------------------------------------
 
@@ -62,11 +88,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`productid`, `carname`, `price`, `model`, `fueltype`, `cartype`, `description`, `city`, `address`, `created_at`, `userid`) VALUES
-(217, 'Honda', 12345123.00, 2002, 'Electric', 'Automatic', 'This is honda new model.', 'Islamabad', 'street 53 i10/4', '2025-08-06 16:14:56', 115),
-(218, 'pajero', 12341234.00, 2005, 'Electric', 'Automatic', 'This is pajero latest model.', 'Multan', 'street 53 i10/4', '2025-08-06 16:16:42', 115),
-(219, 'Toyota', 1234123.00, 2005, 'Electric', 'Automatic', 'This is toyota model.', 'Quetta', 'street 53 i10/4', '2025-08-06 16:19:22', 115),
-(220, 'Ford', 1234123.00, 2005, 'Electric', 'Manual', 'This is Ford Mustan model.', 'Multan', 'street 53 i10/4', '2025-08-06 16:21:16', 115),
-(224, 'Buggati', 5000000.00, 0, 'Diesel', 'Automatic', 'this is test buggati', 'Islamabad', 'Village Wazir abad', '2026-05-24 11:48:32', 127);
+(217, 'Honda', 700000.00, 2002, 'Electric', 'Automatic', 'This is honda new model.', 'Islamabad', 'street 53 i10/4', '2025-08-06 16:14:56', 115),
+(218, 'pajero', 800000.00, 2005, 'Electric', 'Automatic', 'This is pajero latest model.', 'Multan', 'street 53 i10/4', '2025-08-06 16:16:42', 115),
+(219, 'Toyota', 500000.00, 2005, 'Electric', 'Automatic', 'This is toyota model.', 'Quetta', 'street 53 i10/4', '2025-08-06 16:19:22', 115),
+(220, 'Ford', 750000.00, 2005, 'Electric', 'Manual', 'This is Ford Mustan model.', 'Multan', 'street 53 i10/4', '2025-08-06 16:21:16', 115);
 
 -- --------------------------------------------------------
 
@@ -79,16 +104,19 @@ CREATE TABLE `product_bid` (
   `price` int(100) NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `userid` int(11) DEFAULT NULL,
-  `productid` int(11) DEFAULT NULL
+  `productid` int(11) DEFAULT NULL,
+  `bid_end_time` datetime DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_bid`
 --
 
-INSERT INTO `product_bid` (`bid_id`, `price`, `updated_at`, `userid`, `productid`) VALUES
-(116, 112233, '2026-05-23 20:17:48', 127, 217),
-(117, 800000, '2026-05-23 20:23:12', 127, 218);
+INSERT INTO `product_bid` (`bid_id`, `price`, `updated_at`, `userid`, `productid`, `bid_end_time`, `is_active`) VALUES
+(121, 500004, '2026-05-25 12:25:47', 129, 219, '2026-05-25 12:23:00', 0),
+(123, 600010, '2026-05-25 21:02:28', 129, 217, '2026-05-25 20:52:07', 0),
+(124, 1100000, '2026-05-26 13:04:40', 129, 218, '2026-05-26 13:04:31', 0);
 
 -- --------------------------------------------------------
 
@@ -152,7 +180,7 @@ CREATE TABLE `users` (
   `city` varchar(20) NOT NULL,
   `password` varchar(100) NOT NULL,
   `created_at` date NOT NULL DEFAULT current_timestamp(),
-  `type` varchar(10) DEFAULT 'Client',
+  `role` varchar(10) DEFAULT 'Client',
   `status` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -160,13 +188,22 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `name`, `email`, `phone`, `cnic`, `city`, `password`, `created_at`, `type`, `status`) VALUES
+INSERT INTO `users` (`userid`, `name`, `email`, `phone`, `cnic`, `city`, `password`, `created_at`, `role`, `status`) VALUES
 (115, 'khan', 'khan@gmail.com', 31103499912, 31103499912, 'Pindi', '$2b$10$CDMiBGFFUR2woCdfP7x8ru3p4D1jqLdVswXuKAlEjZAahaIuAkSY.', '2024-10-03', 'Client', 1),
-(127, 'Nabeel Ahmad', 'nabeelahmadkhan03@gmail.com', 3109822980, 12345678989, 'Dargai', '$2b$10$eLCCtxs77i3cjD3vxCX1U.29RtD8lr7lPwpthPrVShjMg6rIXPiv2', '2026-05-23', 'Client', 1);
+(127, 'Nabeel Ahmad', 'nabeelahmadkhan03@gmail.com', 3109822980, 12345678989, 'Dargai', '$2b$10$eLCCtxs77i3cjD3vxCX1U.29RtD8lr7lPwpthPrVShjMg6rIXPiv2', '2026-05-23', 'Client', 1),
+(128, 'Admin', 'admin@gmail.com', 88888888888, 1234567899999, 'admin', '$2b$10$iDitMzOWYRQdPK34VjhJluuQp7Ezii1gAGq6zkKmUgQqsrpW4D99e', '2026-05-24', 'admin', 1),
+(129, 'ali', 'ali@gmail.com', 3109822980, 123412341234, 'Dargai', '$2b$10$R/mjS.2bmHVW7eVqSjUiiu/TdGClBgiBXpKC9IhjE/7bKomAg0wPG', '2026-05-25', 'Client', 1),
+(130, 'kamil', 'kamil@gmail.com', 12341234123, 123412341234, 'Pindi', '$2b$10$dEjAYabiXdHIn1.GbsxKFeUAh9Sut/Na1oQ/MSC6hDgeb.Uvtc2v6', '2026-05-26', 'Client', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `bid_history`
+--
+ALTER TABLE `bid_history`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `payment_setting`
@@ -209,6 +246,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `bid_history`
+--
+ALTER TABLE `bid_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `payment_setting`
 --
 ALTER TABLE `payment_setting`
@@ -224,7 +267,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_bid`
 --
 ALTER TABLE `product_bid`
-  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `product_images`
@@ -236,7 +279,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- Constraints for dumped tables
