@@ -57,14 +57,12 @@ router.put('/createBid/:userid/:productid', (req, res) => {
             return res.status(400).json({ error: `Bid must be higher than PKR ${bid.price}` });
         }
 
-        // Update current bid
         pool.query(
             `UPDATE product_bid SET price = ?, userid = ? WHERE productid = ?`,
             [price, userid, productid],
             (err) => {
                 if (err) return res.status(500).json({ error: err.message });
 
-                // ✅ Also insert into history so every bidder is tracked
                 pool.query(
                     `INSERT INTO bid_history (productid, userid, price) VALUES (?, ?, ?)`,
                     [productid, userid, price],
@@ -160,4 +158,5 @@ router.get('/myWonBids/:userid', (req, res) => {
         res.status(200).json(formatted);
     });
 });
+
 module.exports = router;

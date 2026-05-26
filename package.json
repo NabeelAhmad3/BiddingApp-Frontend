@@ -26,6 +26,7 @@
     "@auth0/angular-jwt": "^5.2.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.5.1",
     "express": "^4.18.2",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.6",

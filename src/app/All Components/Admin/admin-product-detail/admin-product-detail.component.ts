@@ -63,4 +63,12 @@ export class AdminProductDetailComponent implements OnInit {
       error: (err) => console.error('Error deleting product:', err)
     });
   }
+  viewBidHistory(): void {
+
+  this.router.navigate([
+    '/admin/bid-history',
+    this.product.productid
+  ]);
+
+}
 }

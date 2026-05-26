@@ -56,7 +56,6 @@ router.get('/products/:userid', isAdmin, (req, res) => {
     });
 });
 
-// ✅ Delete any product (admin)
 router.delete('/deleteProduct/:userid/:productid', isAdmin, (req, res) => {
     const { productid } = req.params;
 
@@ -115,4 +114,61 @@ router.get('/productDetail/:userid/:productid', isAdmin, (req, res) => {
     });
 });
 
+router.get('/productBidHistory/:adminid/:productid', (req, res) => {
+    const { adminid, productid } = req.params;
+
+    pool.query(`SELECT role FROM users WHERE userid = ?`, [adminid], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!rows.length || rows[0].role !== 'admin')
+            return res.status(403).json({ error: 'Access denied' });
+
+        const sql = `
+            SELECT
+                bh.id AS bidid,
+                bh.price AS bid_price,
+                bh.created_at,
+                u.userid,
+                u.name AS bidder_name,
+                u.email AS bidder_email,
+                u.phone AS bidder_phone,
+                pb.price AS current_highest,
+                pb.is_active,
+                pb.bid_end_time,
+                CASE WHEN pb.is_active = 0 AND bh.price = pb.price THEN 1 ELSE 0 END AS is_winner
+            FROM bid_history bh
+            LEFT JOIN users u ON bh.userid = u.userid
+            LEFT JOIN product_bid pb ON bh.productid = pb.productid
+            WHERE bh.productid = ?
+            ORDER BY bh.price DESC
+        `;
+
+        pool.query(sql, [productid], (err, results) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.status(200).json(results);
+        });
+    });
+});
+router.get('/bids/:userid', isAdmin, (req, res) => {
+    const sql = `
+        SELECT 
+            bh.id AS bidid,
+            bh.price AS bid_price,
+            bh.created_at,
+            p.carname,
+            p.productid,
+            u.name AS bidder_name,
+            u.email AS bidder_email
+        FROM bid_history bh
+        LEFT JOIN products p ON bh.productid = p.productid
+        LEFT JOIN users u ON bh.userid = u.userid
+        ORDER BY bh.created_at DESC
+    `;
+    pool.query(sql, (err, results) => {
+        if (err) {
+            console.error('Bids query error:', err.message);
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json(results);
+    });
+});
 module.exports = router;

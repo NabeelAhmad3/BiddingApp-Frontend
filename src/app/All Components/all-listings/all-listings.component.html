@@ -1,49 +1,94 @@
 <div class="d-flex justify-content-center flex-column">
-    <div class="d-flex flex-wrap justify-content-center mt-3">
-      <div class="m-3" *ngFor="let item of products">
-        <div class="card shadow-sm position-relative">
-          <div class="card-body">
-            <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
-              <div class="d-flex align-items-center">
-                <img [src]="item.walkicon" alt="img" class="img-fluid" style="max-height: 40px" />
-                <span class="ms-2">{{ item.walk }}</span>
-              </div>
 
-              <!-- ✅ Dynamic status badge -->
-              <div class="availability-box d-flex align-items-center justify-content-center">
-                <span
-                  [class.availablebtn]="item.status === 'Available'"
-                  [class.livebtn]="item.status === 'Bidding Live'"
-                  [class.notavailablebtn]="item.status === 'Not Available'"
-                  [class.checkingbtn]="item.status === 'Checking...'">
-                  {{ item.status }}
-                </span>
-              </div>
+  <div class="filter-bar">
+    <!-- Car Name -->
+    <div class="filter-item">
+      <label>Car Name</label>
+      <input type="text" [(ngModel)]="filterCarname" (ngModelChange)="applyFilters()" placeholder="Search by name..."
+        class="filter-input" />
+    </div>
 
+    <div class="filter-item">
+      <label>Status</label>
+      <select [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" class="filter-input">
+        <option value="">All</option>
+        <option value="Available">Available</option>
+        <option value="Bidding Live">Bidding Live</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label>Min Price (PKR)</label>
+      <input type="number" [(ngModel)]="filterMinPrice" (ngModelChange)="applyFilters()" placeholder="e.g. 100000"
+        class="filter-input" />
+    </div>
+
+    <div class="filter-item">
+      <label>Max Price (PKR)</label>
+      <input type="number" [(ngModel)]="filterMaxPrice" (ngModelChange)="applyFilters()" placeholder="e.g. 5000000"
+        class="filter-input" />
+    </div>
+
+    <div class="filter-item d-flex align-items-end">
+      <button class="reset-btn" (click)="resetFilters()">Reset</button>
+    </div>
+  </div>
+
+  <div class="ms-4 mb-2" style="color: #9ca3af; font-size: 13px;">
+    Showing {{ filteredProducts.length }} of {{ products.length }} products
+  </div>
+
+  <div class="d-flex flex-wrap justify-content-center mt-3">
+    <div class="m-3" *ngFor="let item of filteredProducts">
+      <div class="card shadow-sm position-relative">
+        <div class="card-body">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center">
+              <img [src]="item.walkicon" alt="img" class="img-fluid" style="max-height: 40px" />
+              <span class="ms-2">{{ item.walk }}</span>
             </div>
-            <img [src]="item.image" alt="imgAlt" class="img-fluid mx-auto d-block my-3 main-img" />
-            <div class="car-details d-flex justify-content-between align-items-center">
-              <span>{{ item.carname }}</span>
-              <strong class="ms-2">{{ item.price }}</strong>
+
+            <div class="availability-box d-flex align-items-center justify-content-center">
+              <span [class.availablebtn]="item.status === 'Available'" [class.livebtn]="item.status === 'Bidding Live'"
+                [class.completedbtn]="item.status === 'Completed'" [class.checkingbtn]="item.status === 'Checking...'">
+                {{ item.status }}
+              </span>
             </div>
-            <div class="d-flex justify-content-between flex-wrap align-items-center thumbnails-section mt-3">
-              <div class="d-flex align-items-center">
-                <img [src]="item.fuelicon" alt="img" class="img-thumbnail thumb-img" />
-                <p class="mb-0 ms-1">{{ item.fueltype }}</p>
-              </div>
-              <div class="d-flex align-items-center">
-                <img [src]="item.caricon" alt="img" class="img-thumbnail thumb-img" />
-                <p class="mb-0 ms-1 me-1">{{ item.cartype }}</p>
-              </div>
-              <div class="d-flex align-items-center">
-                <img [src]="item.locationicon" alt="img" class="img-thumbnail thumb-img" />
-                <p class="mb-0 ms-1">{{ item.city }}</p>
-              </div>
-            </div>
-            <button class="CardButton" (click)="localCardData(item.productid)"
-              [routerLink]="['/details']">View Details</button>
           </div>
+
+          <img [src]="item.image" alt="imgAlt" class="img-fluid mx-auto d-block my-3 main-img" />
+
+          <div class="car-details d-flex justify-content-between align-items-center">
+            <span>{{ item.carname }}</span>
+            <strong class="ms-2">{{ item.priceDisplay }}</strong>
+          </div>
+
+          <div class="d-flex justify-content-between flex-wrap align-items-center thumbnails-section mt-3">
+            <div class="d-flex align-items-center">
+              <img [src]="item.fuelicon" alt="img" class="img-thumbnail thumb-img" />
+              <p class="mb-0 ms-1">{{ item.fueltype }}</p>
+            </div>
+            <div class="d-flex align-items-center">
+              <img [src]="item.caricon" alt="img" class="img-thumbnail thumb-img" />
+              <p class="mb-0 ms-1 me-1">{{ item.cartype }}</p>
+            </div>
+            <div class="d-flex align-items-center">
+              <img [src]="item.locationicon" alt="img" class="img-thumbnail thumb-img" />
+              <p class="mb-0 ms-1">{{ item.city }}</p>
+            </div>
+          </div>
+
+          <button class="CardButton" (click)="localCardData(item.productid)" [routerLink]="['/details']">View
+            Details</button>
         </div>
       </div>
     </div>
+
+    <div *ngIf="filteredProducts.length === 0" class="text-center text-muted mt-5 w-100">
+      <p>No products match your filters.</p>
+      <button class="reset-btn" (click)="resetFilters()">Clear Filters</button>
+    </div>
+  </div>
+
 </div>

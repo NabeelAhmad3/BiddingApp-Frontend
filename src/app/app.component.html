@@ -7,10 +7,12 @@
     <router-outlet></router-outlet>
     <app-footer></app-footer>
   </ng-container>
-
-  <ng-template #otherRoutes>
-    <div class="d-flex flex-row justify-content-between bg-dark align-items-center p-3">
-      <a class="navbar-brand" href=""><img src="assets/Logo.svg" alt="Logo" style="height: 60px;"></a>
+<ng-template #otherRoutes>
+    <div class="d-flex flex-row justify-content-between bg-dark align-items-center px-3 py-2" 
+         style="width: 100%; margin: 0;">
+      <a class="navbar-brand" href="">
+        <img src="assets/Logo.svg" alt="Logo" style="height: 60px;">
+      </a>
       <app-header />
     </div>
     <router-outlet />

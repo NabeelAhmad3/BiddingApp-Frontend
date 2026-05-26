@@ -1,0 +1,99 @@
+.bid-history-wrapper {
+  padding: 30px;
+  background-color: #f4f6fb;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header h2 {
+  font-size: 22px;
+  color: #1e1e2f;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-back {
+  background-color: #4361ee;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.btn-back:hover {
+  background-color: #3451d1;
+}
+
+.bid-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.bid-table th {
+  background-color: #4361ee;
+  color: white;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.bid-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+  color: #374151;
+}
+
+.bid-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bid-table tr:hover td {
+  background-color: #f9fafb;
+}
+
+.winner-badge {
+  background-color: #dcfce7;
+  color: #15803d;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.normal-badge {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 30px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.loading {
+  padding: 30px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}

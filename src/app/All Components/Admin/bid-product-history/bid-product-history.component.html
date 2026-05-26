@@ -1,0 +1,92 @@
+<div class="bid-history-wrapper">
+
+    <div class="header">
+
+        <button class="btn-back" (click)="goBack()">
+            ← Back
+        </button>
+
+        <h2>Product Bid History</h2>
+
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        Loading...
+    </div>
+
+    <div *ngIf="!loading">
+
+        <table class="bid-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Bid Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let bid of bids">
+
+                    <td>
+                        {{ bid.bidder_name }}
+                    </td>
+
+                    <td>
+                        {{ bid.bidder_email }}
+                    </td>
+
+                    <td>
+                        {{ bid.bidder_phone }}
+                    </td>
+
+                    <td>
+                        PKR {{ bid.bid_price | number }}
+                    </td>
+
+                    <td>
+
+                        <span
+                            [style.color]="bid.is_winner ? 'green' : '#666'"
+                            [style.fontWeight]="bid.is_winner ? '700' : '400'"
+                        >
+
+                            {{ bid.is_winner
+                                ? '🏆 Winner'
+                                : 'Bid Placed'
+                            }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        {{ bid.created_at | date:'medium' }}
+                    </td>
+
+                </tr>
+
+                <tr *ngIf="bids.length === 0">
+
+                    <td colspan="6">
+                        No bids found.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

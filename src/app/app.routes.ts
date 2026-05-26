@@ -18,6 +18,7 @@ import { AdminHomeComponent } from './All Components/Admin/admin-home/admin-home
 import { AdminOnly } from './admin.only.guard';
 import { AdminProductDetailComponent } from './All Components/Admin/admin-product-detail/admin-product-detail.component';
 import { MyBidsComponent } from './All Components/my-bids/my-bids.component';
+import { BidProductHistoryComponent } from './All Components/Admin/bid-product-history/bid-product-history.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -38,5 +39,6 @@ export const routes: Routes = [
   { path: 'admin', component: AdminHomeComponent, canActivate: [AdminOnly] },
   { path: 'admin/product/:productid', component: AdminProductDetailComponent, canActivate: [AdminOnly] },
   { path: 'myBids', component: MyBidsComponent, canActivate: [AuthGuard] },
+  { path: 'admin/bid-history/:productid', component: BidProductHistoryComponent },
   { path: '**', redirectTo: '' }
 ];

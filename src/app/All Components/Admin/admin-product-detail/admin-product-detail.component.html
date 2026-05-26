@@ -8,7 +8,9 @@
       <button class="btn-bid" data-bs-toggle="modal" data-bs-target="#setBidModal" *ngIf="!loading && product">
         Start Bid
       </button>
-      <button class="btn-delete" (click)="deleteProduct()">Delete Product</button>
+      <button class="btn-history" (click)="viewBidHistory()">
+        View Bid History
+      </button>
     </div>
   </div>
 
