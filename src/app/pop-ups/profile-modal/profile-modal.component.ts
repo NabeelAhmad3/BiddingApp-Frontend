@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-profile-modal',
@@ -17,11 +18,12 @@ export class ProfileModalComponent implements OnInit {
 
   constructor(private router: Router, private http: HttpClient) {}
 
+  private apiUrl = environment.apiUrl;
   ngOnInit(): void {
     this.isLoggedIn = !!localStorage.getItem('authToken');
 
     if (this.userid) {
-      this.http.get<any[]>(`http://localhost:5000/users/profileDetails/${this.userid}`).subscribe(
+      this.http.get<any[]>(`${this.apiUrl}/users/profileDetails/${this.userid}`).subscribe(
         (data) => {
           this.users = data;
         },

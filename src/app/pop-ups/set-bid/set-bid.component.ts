@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-set-bid',
@@ -21,6 +22,8 @@ export class SetBidComponent implements OnInit, OnDestroy {
   bidEndTime: Date | null = null;
   timeLeft: string = '';
   timerInterval: any;
+  
+    private apiUrl = environment.apiUrl;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.Bid = this.fb.group({
@@ -41,7 +44,7 @@ export class SetBidComponent implements OnInit, OnDestroy {
 
   loadBidStatus(): void {
     if (!this.productid) return;
-    this.http.get<any>(`http://localhost:5000/product_bid/bidStatus/${this.productid}`).subscribe({
+    this.http.get<any>(`${this.apiUrl}/product_bid/bidStatus/${this.productid}`).subscribe({
       next: (data) => {
         this.currentBid = data.price || 0;
         this.isActive = !!data.is_active;
@@ -82,7 +85,7 @@ export class SetBidComponent implements OnInit, OnDestroy {
     }
     const { price, duration_hours } = this.Bid.value;
     this.http.post(
-      `http://localhost:5000/product_bid/startBid/${this.userid}/${this.productid}`,
+      `${this.apiUrl}/product_bid/startBid/${this.userid}/${this.productid}`,
       { price, duration_hours }
     ).subscribe({
       next: (response: any) => {
@@ -108,7 +111,7 @@ export class SetBidComponent implements OnInit, OnDestroy {
     }
 
     this.http.put(
-      `http://localhost:5000/product_bid/createBid/${this.userid}/${this.productid}`,
+      `${this.apiUrl}/product_bid/createBid/${this.userid}/${this.productid}`,
       { price }
     ).subscribe({
       next: (response: any) => {
