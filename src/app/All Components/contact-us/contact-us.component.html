@@ -20,17 +20,6 @@
       </div>
     </div>
 
-    <div class="form-row">
-      <div class="col-12">
-        <input type="text" class="form-control custom-input" id="street" formControlName="street" placeholder="Street"/>
-        <div *ngIf="contactForm.get('street')?.invalid && contactForm.get('street')?.touched" class="text-danger">
-          <span class="text-danger">{{ contactForm.get('street')?.errors?.['required'] ? 'Street is required.' : '' }}</span>
-          <span class="text-danger">{{ contactForm.get('street')?.errors?.['minlength'] ? 'Minimum length is 3 characters.' : '' }}</span>
-          <span class="text-danger">{{ contactForm.get('street')?.errors?.['maxlength'] ? 'Maximum length is 20 characters.' : '' }}</span>
-        </div>
-      </div>
-    </div>
-
     <div class="form-row row">
       <div class="col-md-6 col-12 mb-3 mb-md-0 ps-0">
         <input type="text" class="form-control custom-input" id="city" formControlName="city" placeholder="City"/>
@@ -38,15 +27,6 @@
           <span class="text-danger">{{ contactForm.get('city')?.errors?.['required'] ? 'City is required.' : '' }}</span>
           <span class="text-danger">{{ contactForm.get('city')?.errors?.['minlength'] ? 'Minimum length is 3 characters.' : '' }}</span>
           <span class="text-danger">{{ contactForm.get('city')?.errors?.['maxlength'] ? 'Maximum length is 20 characters.' : '' }}</span>
-        </div>
-      </div>
-      <div class="col-md-6 col-12 ps-0">
-        <input type="number" class="form-control custom-input" id="postcode" formControlName="postCode" placeholder="Postcode"/>
-        <div *ngIf="contactForm.get('postCode')?.invalid && contactForm.get('postCode')?.touched" class="text-danger">
-          
-          <span class="text-danger">{{ contactForm.get('postCode')?.errors?.['required'] ? 'Post Code is required.' : '' }}</span>
-          <span class="text-danger">{{ contactForm.get('postCode')?.errors?.['min'] ? 'Minimum length is 3 characters.' : '' }}</span>  
-          <span class="text-danger">{{ contactForm.get('postCode')?.errors?.['max'] ? 'Maximum length is 10 characters.' : '' }}</span> 
         </div>
       </div>
     </div>

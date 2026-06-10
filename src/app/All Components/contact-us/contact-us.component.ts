@@ -14,13 +14,10 @@ import { environment } from '../../../environments/environments';
 export class ContactUsComponent {
   contactForm: FormGroup =new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(3),Validators.maxLength(20)]),
-    street: new FormControl('', [Validators.required, Validators.minLength(10),Validators.maxLength(20),]),
-    city: new FormControl('', [Validators.required, Validators.minLength(3),Validators.maxLength(20),]),
-    postCode: new FormControl('', [Validators.required, Validators.min(10),Validators.max(100000000)]),
-    phoneNo: new FormControl('', [Validators.required, Validators.min(1000000000),Validators.max(100000000000000)]),
     email: new FormControl('', [Validators.required, Validators.email,Validators.minLength(15),Validators.maxLength(35)]),
+    city: new FormControl('', [Validators.required, Validators.minLength(3),Validators.maxLength(20),]),
+    phoneNo: new FormControl(''),
     message: new FormControl(''),
-    terms: new FormControl(false, [Validators.requiredTrue])
   });
 
   private apiUrl = environment.apiUrl;
