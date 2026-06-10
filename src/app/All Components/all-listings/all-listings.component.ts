@@ -20,7 +20,7 @@ export class AllListingsComponent implements OnInit {
   filterStatus: string = '';
   filterMinPrice: number | null = null;
   filterMaxPrice: number | null = null;
-  
+
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -39,9 +39,7 @@ export class AllListingsComponent implements OnInit {
           isActive: false,
           bidStarted: false,
           carname: product.carname,
-          image: product.images && product.images.length > 0
-            ? product.images[0]
-            : 'assets/all2.svg',
+          image: 'assets/all2.svg',
           description: product.description,
           price: product.price,
           priceDisplay: `PKR: ${product.price.toLocaleString()}`,
@@ -58,6 +56,14 @@ export class AllListingsComponent implements OnInit {
         this.filteredProducts = [...this.products];
 
         this.products.forEach((product: any) => {
+          this.http.get<any>(`${this.apiUrl}/products/productsInfo/${product.productid}`)
+            .subscribe({
+              next: (info) => {
+                product.image = info.images?.[0] ?? 'assets/all2.svg';
+                this.applyFilters();
+              }
+            });
+
           this.http.get<any>(`${this.apiUrl}/product_bid/bidStatus/${product.productid}`)
             .subscribe({
               next: (bidData) => {

@@ -23,7 +23,7 @@ export class FeatureProductsComponent implements OnInit {
   cards: myCardModel[] = [];
   isLoggedIn: boolean = false;
   Authdata: any = {};
-    private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
     localStorage.setItem('localdatadetail', '');
@@ -40,9 +40,7 @@ export class FeatureProductsComponent implements OnInit {
     this.http.get<any[]>(`${this.apiUrl}/products/allData`).subscribe(
       (data) => {
         const allCards = data.map(item => ({
-          image: item.images && item.images.length > 0
-            ? item.images[0]
-            : './assets/car2.svg',
+          image: './assets/car2.svg',
           carname: item.carname,
           productid: item.productid,
           price: item.price,
@@ -53,6 +51,14 @@ export class FeatureProductsComponent implements OnInit {
         const tempCards: myCardModel[] = [];
 
         allCards.forEach((card: any) => {
+
+          this.http.get<any>(`${this.apiUrl}/products/productsInfo/${card.productid}`)
+            .subscribe({
+              next: (info) => {
+                card.image = info.images?.[0] ?? './assets/car2.svg';
+              }
+            });
+
           this.http.get<any>(`${this.apiUrl}/product_bid/bidStatus/${card.productid}`)
             .subscribe({
               next: (bidData) => {
