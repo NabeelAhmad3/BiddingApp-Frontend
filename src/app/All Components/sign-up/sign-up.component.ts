@@ -4,6 +4,7 @@ import { HttpService } from './sign-up.services';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,6 +18,7 @@ export class SignUpComponent implements OnInit {
   isLoggedIn: boolean = false;
   Authdata: any = {};
 
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {
     this.Authdata = {
       token: localStorage.getItem('authToken'),
@@ -46,7 +48,7 @@ export class SignUpComponent implements OnInit {
     this.signUpForm.reset();
   }
   addUser(data: any): void {
-    this.http.post('http://localhost:5000/users/register', data).subscribe(
+    this.http.post(`${this.apiUrl}/users/register`, data).subscribe(
       (response: any) => {
         alert(response.message);
         localStorage.setItem('authToken', response.token);
