@@ -17,7 +17,7 @@ export interface myCardModel {
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './feature-products.component.html',
-  styleUrls: ['../home-card/home-card.component.css']
+  styleUrls: ['./feature-products.component.css']
 })
 export class FeatureProductsComponent implements OnInit {
   cards: myCardModel[] = [];
