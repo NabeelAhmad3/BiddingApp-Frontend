@@ -73,7 +73,7 @@ export class FeatureProductsComponent implements OnInit {
               complete: () => {
                 checkedCount++;
                 if (checkedCount === allCards.length) {
-                  this.cards = tempCards.slice(0, 8);
+                  this.cards = tempCards.slice(0, 6);
                 }
               }
             });

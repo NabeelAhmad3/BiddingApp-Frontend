@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router'; 
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environments';
@@ -16,26 +16,26 @@ export class SearchResultsComponent implements OnInit {
   isLoggedIn: boolean = false;
   Authdata: any = {};
   errorMessage: string | null = null;
-    private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { 
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     localStorage.setItem('localdatadetail', '');
     this.Authdata = {
       token: localStorage.getItem('authToken'),
       userid: localStorage.getItem('authUserId')
     };
-    this.isLoggedIn = !!this.Authdata.token; 
+    this.isLoggedIn = !!this.Authdata.token;
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const carname = params['carname'];
-      const productid = params['productid'] ? +params['productid'] : null;  
+      const productid = params['productid'] ? +params['productid'] : null;
 
       if (carname || productid !== null) {
         const searchQuery: any = {};
         if (carname) searchQuery.carname = carname;
-        if (productid) searchQuery.productid = productid.toString();  
+        if (productid) searchQuery.productid = productid.toString();
 
         this.searchProducts(searchQuery);
       }
@@ -44,7 +44,7 @@ export class SearchResultsComponent implements OnInit {
 
   searchProducts(searchQuery: { carname?: string, productid?: string }): void {
     this.http.get<any[]>(`${this.apiUrl}/products/search`, {
-      params: searchQuery  
+      params: searchQuery
     }).subscribe(
       (results) => {
         if (results.length > 0) {
@@ -53,9 +53,7 @@ export class SearchResultsComponent implements OnInit {
             walk: '(10 mins to walk)',
             status: 'Available',
             carname: product.carname,
-             image: product.images && product.images.length > 0
-              ? product.images[0]
-              : 'assets/all2.svg',
+            image: 'assets/all2.svg',
             description: product.description,
             price: `PKR: ${product.price.toLocaleString()}`,
             fuelicon: 'assets/all4.svg',
@@ -66,6 +64,16 @@ export class SearchResultsComponent implements OnInit {
             city: product.city,
             productid: product.productid
           }));
+
+          this.products.forEach((product: any) => {
+            this.http.get<any>(`${this.apiUrl}/products/productsInfo/${product.productid}`)
+              .subscribe({
+                next: (info) => {
+                  product.image = info.images?.[0] ?? 'assets/all2.svg';
+                }
+              });
+          });
+
           this.errorMessage = null;
         } else {
           this.products = [];
