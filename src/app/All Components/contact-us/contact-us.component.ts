@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-contact-us',
@@ -22,6 +23,7 @@ export class ContactUsComponent {
     terms: new FormControl(false, [Validators.requiredTrue])
   });
 
+  private apiUrl = environment.apiUrl;
   constructor(private fb: FormBuilder,private http: HttpClient){}
   onSubmit() {
     if (this.contactForm.invalid) {
@@ -29,7 +31,7 @@ export class ContactUsComponent {
       return;
     }
   
-  this.http.post('http://localhost:5000/contact', this.contactForm.value)
+  this.http.post(`${this.apiUrl}/contact`, this.contactForm.value)
   .subscribe({
     next: (response) => {
       console.log('Email sent successfully!', response);

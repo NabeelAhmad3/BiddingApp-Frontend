@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-purchase-bid',
@@ -12,10 +13,11 @@ import { Component, OnInit } from '@angular/core';
 export class PurchaseBidComponent implements OnInit {
   summary: any = {}; 
 
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get<any>('http://localhost:5000/products?productid=137').subscribe(
+    this.http.get<any>(`${this.apiUrl}/products`).subscribe(
       (data) => {
         if (data && data.length > 0) {
           const item = data[0];

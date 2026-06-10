@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SetBidComponent } from '../../../pop-ups/set-bid/set-bid.component'; 
+import { environment } from '../../../../environments/environments';
 
 @Component({
   selector: 'app-admin-product-detail',
@@ -16,7 +17,9 @@ export class AdminProductDetailComponent implements OnInit {
   activeImageIndex = 0;
   loading = true;
 
-  private baseUrl = 'http://localhost:5000/admin';
+  private apiUrl = environment.apiUrl;
+
+  // private baseUrl = 'http://localhost:5000/admin';
   private userid = localStorage.getItem('authUserId');
 
   constructor(
@@ -33,7 +36,7 @@ export class AdminProductDetailComponent implements OnInit {
   }
 
   loadProductDetail(productid: string): void {
-    this.http.get<any>(`${this.baseUrl}/productDetail/${this.userid}/${productid}`).subscribe({
+    this.http.get<any>(`${this.apiUrl}/admin/productDetail/${this.userid}/${productid}`).subscribe({
       next: (data) => {
         this.product = data;
         this.loading = false;
@@ -55,7 +58,7 @@ export class AdminProductDetailComponent implements OnInit {
 
   deleteProduct(): void {
     if (!confirm('Are you sure you want to delete this product?')) return;
-    this.http.delete(`${this.baseUrl}/deleteProduct/${this.userid}/${this.product.productid}`).subscribe({
+    this.http.delete(`${this.apiUrl}/admin/deleteProduct/${this.userid}/${this.product.productid}`).subscribe({
       next: () => {
         alert('Product deleted successfully');
         this.router.navigate(['/admin']);

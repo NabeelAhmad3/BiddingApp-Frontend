@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SetBidComponent } from "../../pop-ups/set-bid/set-bid.component";
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-details',
@@ -16,6 +17,7 @@ export class DetailsComponent implements OnInit {
   productid?: number;
   sellerInfo: any = {};
 
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {
     const storedProductId = localStorage.getItem('localdatadetail');
     this.productid = storedProductId ? +storedProductId : undefined;
@@ -27,7 +29,7 @@ export class DetailsComponent implements OnInit {
     }
   }
   fetchProductAndSellerDetails(productid: number) {
-    this.http.get<any>(`http://localhost:5000/products/productsInfo/${productid}`).subscribe(
+    this.http.get<any>(`${this.apiUrl}/products/productsInfo/${productid}`).subscribe(
       (data) => {
         if (data) {
           this.productInfo = data;

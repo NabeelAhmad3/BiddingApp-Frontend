@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FeaturesComponent } from '../../features/features.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-all-listings',
@@ -19,6 +20,8 @@ export class AllListingsComponent implements OnInit {
   filterStatus: string = '';
   filterMinPrice: number | null = null;
   filterMaxPrice: number | null = null;
+  
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -27,7 +30,7 @@ export class AllListingsComponent implements OnInit {
   }
 
   getProducts() {
-    this.http.get<any[]>('http://localhost:5000/products/allData').subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/products/allData`).subscribe({
       next: (data) => {
         this.products = data.map((product) => ({
           walkicon: 'assets/all7.svg',
@@ -55,7 +58,7 @@ export class AllListingsComponent implements OnInit {
         this.filteredProducts = [...this.products];
 
         this.products.forEach((product: any) => {
-          this.http.get<any>(`http://localhost:5000/product_bid/bidStatus/${product.productid}`)
+          this.http.get<any>(`${this.apiUrl}/product_bid/bidStatus/${product.productid}`)
             .subscribe({
               next: (bidData) => {
                 product.isActive = !!bidData.is_active;

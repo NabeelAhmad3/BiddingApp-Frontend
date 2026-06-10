@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-edit-information',
@@ -16,6 +17,7 @@ export class EditInformationComponent implements OnInit {
   userid: string | null;
   @Input() productid!: number;
 
+  private apiUrl = environment.apiUrl;
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -48,7 +50,7 @@ export class EditInformationComponent implements OnInit {
   }
 
   getProductData(): void {
-    this.http.get<any>(`http://localhost:5000/products/productsInfo/${this.productid}`)
+    this.http.get<any>(`${this.apiUrl}/products/productsInfo/${this.productid}`)
       .subscribe(
         response => {
           this.editInfoForm.patchValue({
@@ -76,7 +78,7 @@ export class EditInformationComponent implements OnInit {
     const updatedData = this.editInfoForm.value;
 
     this.http.put<any>(
-      `http://localhost:5000/products/updateProduct/${this.productid}/${this.userid}`,
+      `${this.apiUrl}/products/updateProduct/${this.productid}/${this.userid}`,
       updatedData
     ).subscribe(
       response => {

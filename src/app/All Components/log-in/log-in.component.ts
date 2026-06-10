@@ -2,6 +2,7 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-log-in',
@@ -15,6 +16,8 @@ export class LogInComponent implements OnInit {
   googleLogUrl = 'https://www.google.com/login/';
   facebookLogUrl = 'https://www.facebook.com/login/';
   Authdata: any;
+  
+    private apiUrl = environment.apiUrl;
   constructor(private fb: FormBuilder, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -31,7 +34,7 @@ onSubmit(): void {
     }
 
     const formData = this.loginForm.value;
-    this.http.post('http://localhost:5000/users/login', formData).subscribe({
+    this.http.post(`${this.apiUrl}/users/login`, formData).subscribe({
       next: (response: any) => {
         localStorage.setItem('authToken', response.token);
         localStorage.setItem('authUserId', response.userid);

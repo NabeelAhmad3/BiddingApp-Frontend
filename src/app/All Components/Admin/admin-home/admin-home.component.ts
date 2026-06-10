@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
+import { environment } from '../../../../environments/environments';
 
 Chart.register(...registerables);
 
@@ -30,7 +31,8 @@ export class AdminHomeComponent implements OnInit, AfterViewInit {
 
   private charts: Chart[] = [];
 
-  private baseUrl = 'http://localhost:5000/admin';
+  private apiUrl = environment.apiUrl;
+  // private baseUrl = 'http://localhost:5000/admin';
   private userid = localStorage.getItem('authUserId');
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -53,7 +55,7 @@ export class AdminHomeComponent implements OnInit, AfterViewInit {
   }
 
   loadProducts(): void {
-    this.http.get<any[]>(`${this.baseUrl}/products/${this.userid}`).subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/admin/products/${this.userid}`).subscribe({
       next: (data) => {
         this.products = data;
         this.totalProducts = data.length;
@@ -64,7 +66,7 @@ export class AdminHomeComponent implements OnInit, AfterViewInit {
   }
 
   loadUsers(): void {
-    this.http.get<any[]>(`${this.baseUrl}/users/${this.userid}`).subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/admin/users/${this.userid}`).subscribe({
       next: (data) => {
         this.users = data;
         this.totalUsers = data.length;
@@ -75,7 +77,7 @@ export class AdminHomeComponent implements OnInit, AfterViewInit {
   }
 
   loadBids(): void {
-    this.http.get<any[]>(`${this.baseUrl}/bids/${this.userid}`).subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/admin/bids/${this.userid}`).subscribe({
       next: (data) => {
         this.bids = data;
         this.totalBids = data.length;
@@ -106,7 +108,7 @@ export class AdminHomeComponent implements OnInit, AfterViewInit {
     let checked = 0;
 
     this.products.forEach(p => {
-      this.http.get<any>(`http://localhost:5000/product_bid/bidStatus/${p.productid}`).subscribe({
+      this.http.get<any>(`${this.apiUrl}/product_bid/bidStatus/${p.productid}`).subscribe({
         next: (bid) => {
           if (bid.is_active) live++;
           else if (bid.bid_end_time) completed++;
@@ -259,7 +261,7 @@ export class AdminHomeComponent implements OnInit, AfterViewInit {
 
   deleteProduct(productid: number): void {
     if (!confirm('Are you sure you want to delete this product?')) return;
-    this.http.delete(`${this.baseUrl}/deleteProduct/${this.userid}/${productid}`).subscribe({
+    this.http.delete(`${this.apiUrl}/deleteProduct/${this.userid}/${productid}`).subscribe({
       next: () => this.products = this.products.filter(p => p.productid !== productid),
       error: (err) => console.error('Error deleting product', err)
     });
@@ -267,7 +269,7 @@ export class AdminHomeComponent implements OnInit, AfterViewInit {
 
   deleteUser(targetid: number): void {
     if (!confirm('Are you sure you want to delete this user?')) return;
-    this.http.delete(`${this.baseUrl}/deleteUser/${this.userid}/${targetid}`).subscribe({
+    this.http.delete(`${this.apiUrl}/deleteUser/${this.userid}/${targetid}`).subscribe({
       next: () => this.users = this.users.filter(u => u.userid !== targetid),
       error: (err) => console.error('Error deleting user', err)
     });

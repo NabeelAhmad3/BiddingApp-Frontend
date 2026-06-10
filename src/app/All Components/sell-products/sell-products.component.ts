@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-sell-products',
@@ -16,6 +17,7 @@ export class SellProductsComponent {
   imageUploadError = false;
   userid: string | null;
 
+  private apiUrl = environment.apiUrl;
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.sellProducts = this.fb.group({
       carname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
@@ -82,7 +84,7 @@ export class SellProductsComponent {
       userid: this.userid
     };
 
-    this.http.post<any>('http://localhost:5000/products/addProducts', payload).subscribe(
+    this.http.post<any>(`${this.apiUrl}/products/addProducts`, payload).subscribe(
       response => {
         alert(response.message);
         this.imageUrls = [];

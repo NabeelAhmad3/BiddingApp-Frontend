@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-profile-setting',
@@ -13,6 +14,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class ProfileSettingComponent {
   profileSetForm: FormGroup;
   userid: string | null;
+  private apiUrl = environment.apiUrl;
 
   constructor(private fb: FormBuilder, private Http: HttpClient) {
     this.profileSetForm = this.fb.group({
@@ -29,7 +31,7 @@ export class ProfileSettingComponent {
   }
 
   fetchUserData() {
-    this.Http.get(`http://localhost:5000/users/profileDetails/${this.userid}`).subscribe(
+    this.Http.get(`${this.apiUrl}/users/profileDetails/${this.userid}`).subscribe(
       (response: any) => {
         if (response && response.length > 0) {
           this.profileSetForm.patchValue({
@@ -40,7 +42,7 @@ export class ProfileSettingComponent {
             city: response[0].city,
             password: response[0].password
           });
-        } 
+        }
       },
       (error: any) => {
         console.error('Error fetching user data', error);
@@ -52,7 +54,7 @@ export class ProfileSettingComponent {
       this.profileSetForm.markAllAsTouched();
       return;
     }
-    this.Http.put(`http://localhost:5000/users/profileDetails/${this.userid}`, this.profileSetForm.value).subscribe(
+    this.Http.put(`${this.apiUrl}/users/profileDetails/${this.userid}`, this.profileSetForm.value).subscribe(
       (response: any) => {
         console.log(response);
       },

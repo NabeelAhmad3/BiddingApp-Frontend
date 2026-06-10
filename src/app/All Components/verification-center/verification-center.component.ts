@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-verification-center',
@@ -15,6 +16,9 @@ export class VerificationCenterComponent {
   imageUrls: string[] = [];
   verificationForm: FormGroup;
   errorMessage: string = '';
+
+  private apiUrl = environment.apiUrl;
+
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.verificationForm = this.fb.group({
       images: this.fb.array(this.createImageControls())
@@ -63,7 +67,7 @@ export class VerificationCenterComponent {
         image2: this.images.at(1).value
       };
   
-      this.http.post<any>('http://localhost:5000/id_verification', formData).subscribe(
+      this.http.post<any>(`${this.apiUrl}/id_verification`, formData).subscribe(
         response => {
           alert(response.message);
           this.imageUrls = [];  

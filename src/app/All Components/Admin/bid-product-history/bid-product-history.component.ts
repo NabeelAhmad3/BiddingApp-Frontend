@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../../environments/environments';
 
 @Component({
   selector: 'app-bid-product-history',
@@ -17,7 +18,8 @@ export class BidProductHistoryComponent implements OnInit {
 
   loading = true;
 
-  private baseUrl = 'http://localhost:5000/admin';
+  private apiUrl = environment.apiUrl;
+  // private baseUrl = 'http://localhost:5000/admin';
   private userid = localStorage.getItem('authUserId');
 
   constructor(
@@ -40,7 +42,7 @@ export class BidProductHistoryComponent implements OnInit {
   loadBidHistory(): void {
 
     this.http.get<any[]>(
-      `${this.baseUrl}/productBidHistory/${this.userid}/${this.productid}`
+      `${this.apiUrl}/admin/productBidHistory/${this.userid}/${this.productid}`
     ).subscribe({
 
       next: (data) => {

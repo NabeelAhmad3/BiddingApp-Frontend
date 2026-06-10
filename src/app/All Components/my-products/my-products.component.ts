@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { EditInformationComponent } from "../edit-information/edit-information.component";
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-my-products',
@@ -19,13 +20,14 @@ export class MyProductsComponent implements OnInit {
   userid: string | null;
   selectedProductId: number | null = null;
 
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {
     this.userid = localStorage.getItem('authUserId');
     localStorage.setItem('localdatadetail', '');
   }
 
   ngOnInit(): void {
-    this.http.get<any>(`http://localhost:5000/products/myProducts/${this.userid}`).subscribe(
+    this.http.get<any>(`${this.apiUrl}/products/myProducts/${this.userid}`).subscribe(
       (data) => {
         this.CarData = data.map((item: any) => ({
           image: item.image ? item.image : 'assets/all3.svg',
@@ -39,7 +41,7 @@ export class MyProductsComponent implements OnInit {
         }));
 
         this.CarData.forEach((car: any) => {
-          this.http.get<any>(`http://localhost:5000/product_bid/bidStatus/${car.productid}`)
+          this.http.get<any>(`${this.apiUrl}/product_bid/bidStatus/${car.productid}`)
             .subscribe({
               next: (bidData) => {
                 car.isActive = !!bidData.is_active;
@@ -67,7 +69,7 @@ export class MyProductsComponent implements OnInit {
     if (!this.userid) return;
     if (!confirm('Are you sure you want to delete this product?')) return;
 
-    this.http.delete(`http://localhost:5000/products/deleteProduct/${productid}/${this.userid}`).subscribe(
+    this.http.delete(`${this.apiUrl}/products/deleteProduct/${productid}/${this.userid}`).subscribe(
       () => {
         this.CarData = this.CarData.filter((car: any) => car.productid !== productid);
       },

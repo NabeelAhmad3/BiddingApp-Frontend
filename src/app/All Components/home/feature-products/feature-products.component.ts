@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../../environments/environments';
 
 export interface myCardModel {
   image: string;
@@ -22,6 +23,7 @@ export class FeatureProductsComponent implements OnInit {
   cards: myCardModel[] = [];
   isLoggedIn: boolean = false;
   Authdata: any = {};
+    private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
     localStorage.setItem('localdatadetail', '');
@@ -35,7 +37,7 @@ export class FeatureProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<any[]>('http://localhost:5000/products/allData').subscribe(
+    this.http.get<any[]>(`${this.apiUrl}/products/allData`).subscribe(
       (data) => {
         const allCards = data.map(item => ({
           image: item.images && item.images.length > 0
@@ -51,7 +53,7 @@ export class FeatureProductsComponent implements OnInit {
         const tempCards: myCardModel[] = [];
 
         allCards.forEach((card: any) => {
-          this.http.get<any>(`http://localhost:5000/product_bid/bidStatus/${card.productid}`)
+          this.http.get<any>(`${this.apiUrl}/product_bid/bidStatus/${card.productid}`)
             .subscribe({
               next: (bidData) => {
                 const isCompleted = !bidData.is_active && !!bidData.bid_end_time;

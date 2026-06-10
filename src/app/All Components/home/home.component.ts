@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { RegistrationPageComponent } from "../../pop-ups/registration-page/registration-page.component";
 import { SearchResultsComponent } from "../search-results/search-results.component";
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +35,8 @@ export class HomeComponent {
   isLoggedIn: boolean = false;
   Authdata: any = {};
   errorMessage: string | null = null;
+  
+    private apiUrl = environment.apiUrl;
 
   constructor(private router: Router, private http: HttpClient) {
     this.Authdata = {
@@ -43,7 +46,6 @@ export class HomeComponent {
     if (this.Authdata.token) {
       this.isLoggedIn = true;
     }
-    console.log(localStorage.getItem('userdata'))
   }
 
   handleToggleNavbar() {
@@ -60,7 +62,7 @@ export class HomeComponent {
         queryParams.productid = productid;
       }
 
-      this.http.get<any[]>('http://localhost:5000/products/search', { params: queryParams })
+      this.http.get<any[]>(`${this.apiUrl}/products/search`, { params: queryParams })
         .subscribe(
           (results) => {
             if (results.length > 0) {

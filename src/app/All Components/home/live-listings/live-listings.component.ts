@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SetBidComponent } from "../../../pop-ups/set-bid/set-bid.component";
 import { homeCardModel } from '../home-card/homeCardModel';
 import { HomeCardComponent } from "../home-card/home-card.component";
+import { environment } from '../../../../environments/environments';
 
 @Component({
   selector: 'app-live-listings',
@@ -15,6 +16,7 @@ import { HomeCardComponent } from "../home-card/home-card.component";
 export class LiveListingsComponent implements OnInit {
   cards: homeCardModel[] = [];
 
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class LiveListingsComponent implements OnInit {
   }
 
   loadLiveListings(): void {
-    this.http.get<any[]>('http://localhost:5000/products/livelistings').subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/products/livelistings`).subscribe({
       next: (data) => {
         this.cards = data
           .filter(item => item.is_active !== 0)

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'; 
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-search-results',
@@ -15,6 +16,7 @@ export class SearchResultsComponent implements OnInit {
   isLoggedIn: boolean = false;
   Authdata: any = {};
   errorMessage: string | null = null;
+    private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { 
     localStorage.setItem('localdatadetail', '');
@@ -41,7 +43,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   searchProducts(searchQuery: { carname?: string, productid?: string }): void {
-    this.http.get<any[]>('http://localhost:5000/products/search', {
+    this.http.get<any[]>(`${this.apiUrl}/products/search`, {
       params: searchQuery  
     }).subscribe(
       (results) => {
