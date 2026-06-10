@@ -11,7 +11,7 @@ import { environment } from '../../../../environments/environments';
   standalone: true,
   imports: [CommonModule, SetBidComponent, HomeCardComponent],
   templateUrl: './live-listings.component.html',
-  styleUrls: ['../home-card/home-card.component.css']
+  styleUrls: ['./live-listing.component.css']
 })
 export class LiveListingsComponent implements OnInit {
   cards: homeCardModel[] = [];

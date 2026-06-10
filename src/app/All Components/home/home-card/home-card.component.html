@@ -1,12 +1,19 @@
-<div class="card">
-    <img [src]="image" alt="img" class="card-image" />
-    <div class="cardDetails">
-        <p><b>{{carname}}</b></p>
-        <p style="color: rgba(13, 110, 253, 1);">Product ID :   {{productid}}</p>
-        <p>Current Bid :  {{price}}</p>
-        <p>City :  {{city}}</p>
+<div class="product-card">
+    <img [src]="image" alt="car image" class="card-image" />
+
+    <div class="card-details">
+        <p class="car-name">{{ carname }}</p>
+        <p class="card-meta">ID: {{ productid }}</p>
+        <p class="card-meta">Current bid: PKR {{ price.toLocaleString() }}</p>
+        <p class="card-meta">{{ city }}</p>
+
+        <button class="view-btn" *ngIf="isLoggedIn" data-bs-toggle="modal" data-bs-target="#setBidModal">
+            Place bid
+        </button>
+        <button class="view-btn" *ngIf="!isLoggedIn" data-bs-toggle="modal" data-bs-target="#regModal">
+            Place bid
+        </button>
     </div>
-    <button class="viewdetails" *ngIf="isLoggedIn" data-bs-toggle="modal" data-bs-target="#setBidModal">Place Bid</button>
-    <button class="viewdetails" *ngIf="!isLoggedIn" data-bs-toggle="modal" data-bs-target="#regModal">Place Bid</button>
 </div>
-<app-set-bid [productid]="productid"/>
+
+<app-set-bid [productid]="productid" />

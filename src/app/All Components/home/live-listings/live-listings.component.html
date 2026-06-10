@@ -1,15 +1,17 @@
-<div class="Listings">
-  <div class="fw-bold align-items-center text-center" style="font-size: 24px;">
-  <p>Live Listings</p>
-  </div>
+<section class="listings-section">
+  <p class="section-title">Live listings</p>
+
   <div class="card-gallery">
-      <app-home-card *ngFor="let item of cards; index as i" 
-          [image]="item.image" 
-          [carname]="item.carname" 
-          [productid]="item.productid" 
-          [price]="item.price" 
-          [city]="item.city">
-          [key]="i"
-      </app-home-card>
+    <app-home-card
+      *ngFor="let item of cards; index as i"
+      [image]="item.image"
+      [carname]="item.carname"
+      [productid]="item.productid"
+      [price]="item.price"
+      [city]="item.city"
+      [key]="i">
+    </app-home-card>
   </div>
-</div>
+
+  <p class="empty-msg" *ngIf="cards.length === 0">No live listings right now.</p>
+</section>
