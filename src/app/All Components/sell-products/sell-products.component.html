@@ -81,18 +81,9 @@
                 </div>
             </div>
 
-            <!-- Row 3: Description -->
-            <div class="row mt-xl-5">
-                <div class="col-md-10 p-0 mt-2">
-                    <textarea class="custom-textarea form-control" id="description" formControlName="description"
-                        rows="4" placeholder="Description"></textarea>
-                    <span class="text-danger" *ngIf="sellProducts.get('description')?.errors?.['maxlength']">
-                        Maximum length is 1000 characters.
-                    </span>
-                </div>
-            </div>
 
-            <!-- Row 4: City, Address -->
+
+            <!-- Row 3: City, Address -->
             <div class="row mt-xl-5">
                 <div class="col-md-5">
                     <label for="city" class="col-form-label">Choose Your City</label>
@@ -122,9 +113,19 @@
                         <span class="text-danger" *ngIf="sellProducts.get('address')?.errors?.['minlength']">Minimum
                             length is 6 characters.</span>
                         <span class="text-danger" *ngIf="sellProducts.get('address')?.errors?.['maxlength']">Maximum
-                            length is 20 characters.</span>
+                            length is 200 characters.</span>
                     </div>
                 </div>
+                            <!-- Row 4: Description -->
+            <div class="row mt-xl-5">
+                <div class="col-md-10 p-0 mt-2">
+                    <textarea class="custom-textarea form-control" id="description" formControlName="description"
+                        rows="4" placeholder="Description"></textarea>
+                    <span class="text-danger" *ngIf="sellProducts.get('description')?.errors?.['maxlength']">
+                        Maximum length is 1000 characters.
+                    </span>
+                </div>
+            </div>
             </div>
 
             <!-- Image Upload Section -->

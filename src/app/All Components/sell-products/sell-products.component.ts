@@ -26,7 +26,7 @@ export class SellProductsComponent {
       cartype: ['', Validators.required],
       fueltype: ['', Validators.required],
       city: ['', Validators.required],
-      address: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+      address: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(200)]],
       description: ['', [Validators.maxLength(1000)]],
       images: this.fb.array(this.createImageControls())
     });
@@ -39,7 +39,7 @@ export class SellProductsComponent {
 
   createImageControls(): FormControl[] {
     const controls = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
       controls.push(this.fb.control(''));
     }
     return controls;
