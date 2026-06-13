@@ -21,6 +21,7 @@ import { MyBidsComponent } from './All Components/my-bids/my-bids.component';
 import { BidProductHistoryComponent } from './All Components/Admin/bid-product-history/bid-product-history.component';
 import { ResetPassworComponent } from './All Components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './All Components/forgot-password/forgot-password.component';
+import { LogInComponent } from './All Components/log-in/log-in.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -44,5 +45,7 @@ export const routes: Routes = [
   { path: 'admin/bid-history/:productid', component: BidProductHistoryComponent },
   { path: 'reset-password', component: ResetPassworComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'login', component: LogInComponent },
+
   { path: '**', redirectTo: '' }
 ];
