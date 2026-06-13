@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environments';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -18,7 +19,7 @@ export class LogInComponent implements OnInit {
   Authdata: any;
   
     private apiUrl = environment.apiUrl;
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(private fb: FormBuilder, private http: HttpClient,private router:Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -58,4 +59,7 @@ onSubmit(): void {
     });
 }
 
+  goToForgotPassword() {
+  this.router.navigate(['/forgot-password']);
+}
 }

@@ -19,6 +19,8 @@ import { AdminOnly } from './admin.only.guard';
 import { AdminProductDetailComponent } from './All Components/Admin/admin-product-detail/admin-product-detail.component';
 import { MyBidsComponent } from './All Components/my-bids/my-bids.component';
 import { BidProductHistoryComponent } from './All Components/Admin/bid-product-history/bid-product-history.component';
+import { ResetPassworComponent } from './All Components/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './All Components/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,5 +42,7 @@ export const routes: Routes = [
   { path: 'admin/product/:productid', component: AdminProductDetailComponent, canActivate: [AdminOnly] },
   { path: 'myBids', component: MyBidsComponent, canActivate: [AuthGuard] },
   { path: 'admin/bid-history/:productid', component: BidProductHistoryComponent },
+  { path: 'reset-password', component: ResetPassworComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '**', redirectTo: '' }
 ];

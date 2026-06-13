@@ -22,12 +22,11 @@
       <p class="centered">OR</p>
 
       <div class="signup-options">
-        <p>
-          <a [href]="googleLogUrl"><img src="assets/google.svg" alt="google" /> Sign up with Google</a>
-        </p>
-        <p>
-          <a [href]="facebookLogUrl"><img src="assets/facebook.svg" alt="facebook" /> Sign up with Facebook</a>
-        </p>
+         <div class="text-center mt-2">
+          <a (click)="goToForgotPassword()" class="text-sm text-blue-500">
+            Forgot Password?
+          </a>
+        </div>
       </div>
     </form>
   </div>
